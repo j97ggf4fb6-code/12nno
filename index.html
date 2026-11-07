@@ -1295,7 +1295,7 @@ var Q=R('index'),E=R('QRErrorCorrectLevel');window.qrcode=function(t,l){return n
 var prize=1,flt="all",meth="銀行口座",bc=0,cnt=30,pt2=null,lk="",KEY="teitei_v2",S=null,view="home",mode="c",amt="",to="",hide=false,tm=null,pending=null;
 try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
 var T0=(S&&S._t)||0,cl0=false,svT=null,lastJ="";
-function fresh(){return{bal:12480,pts:128,sales:0,hist:[],sh:[],cp:[{id:1,t:"100円OFF",sub:"500円以上のお支払いで",k:"f",v:100,min:500,got:false,used:false},{id:2,t:"10%OFF（最大300円）",sub:"1,000円以上のお支払いで",k:"p",v:10,max:300,min:1000,got:false,used:false},{id:3,t:"ポイント2倍",sub:"どのお支払いでもOK",k:"x",min:0,got:false,used:false}],inv:0,invv:0,invh:[],cardOn:true,omi:null,fr:[{n:"さくら"},{n:"たくや"}],nt:[{t:"テイテイへようこそ！毎日スクラッチを削ってポイントをためよう",ts:"11/1 09:00",r:false},{t:"新しいクーポンが届いています",ts:"11/1 09:01",r:false}],name:"テイテイ太郎",shop:"テイテイ珈琲 渋谷店",id:"teitei_user",snd:true}}
+function fresh(){return{bal:0,pts:128,sales:0,hist:[],sh:[],cp:[{id:1,t:"100円OFF",sub:"500円以上のお支払いで",k:"f",v:100,min:500,got:false,used:false},{id:2,t:"10%OFF（最大300円）",sub:"1,000円以上のお支払いで",k:"p",v:10,max:300,min:1000,got:false,used:false},{id:3,t:"ポイント2倍",sub:"どのお支払いでもOK",k:"x",min:0,got:false,used:false}],inv:0,invv:0,invh:[],cardOn:true,omi:null,fr:[],nt:[{t:"テイテイへようこそ！毎日スクラッチを削ってポイントをためよう",ts:"11/1 09:00",r:false},{t:"新しいクーポンが届いています",ts:"11/1 09:01",r:false}],name:"テイテイ太郎",shop:"テイテイ珈琲 渋谷店",id:"teitei_user",snd:true}}
 if(!S)S=fresh();var dfl=fresh();for(var k0 in dfl)if(S[k0]===undefined)S[k0]=dfl[k0];
 function jj(){return JSON.stringify(S,function(k,v){return k=="_t"?undefined:v})}
 function savr(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}lastJ=jj()}
