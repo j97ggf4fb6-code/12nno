@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>テイテイ</title>
+<style>
+:root{--ac:#ff0033;--ac2:#ff4d6a;--bg:#f3f3f5;--cd:#fff;--tx:#1b1b1f;--sb:#8a8a93;--ln:#ececef;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif}
+button{font-family:inherit;cursor:pointer}
+#app{max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:96px}
+#app.s{--ac:#0a6cff;--ac2:#4c97ff}
+.hd{background:linear-gradient(160deg,var(--ac),var(--ac2));color:#fff;padding:14px 16px 78px;display:flex;justify-content:space-between;align-items:center;min-height:130px;align-items:flex-start}
+.hd.sm{min-height:0;padding-bottom:64px;align-items:center}
+.logo{font-weight:900;font-size:24px;letter-spacing:.5px}
+.logo i{font-style:normal;font-size:11px;font-weight:700;background:rgba(255,255,255,.25);padding:2px 7px;border-radius:9px;margin-left:8px;vertical-align:middle}
+.seg{display:flex;background:rgba(0,0,0,.22);border-radius:22px;padding:3px}
+.seg button{border:0;background:none;color:#fff;padding:7px 16px;border-radius:19px;font-size:13px;font-weight:700}
+.seg button.on{background:#fff;color:var(--ac)}
+.ttl{font-weight:800;font-size:16px}
+.bk{background:none;border:0;color:#fff;width:40px;height:32px;padding:0}
+.cd{background:var(--cd);border-radius:18px;margin:0 14px 14px;padding:18px;box-shadow:0 2px 10px rgba(0,0,0,.07)}
+.up{margin-top:-60px}
+.lb{color:var(--sb);font-size:12px;display:flex;align-items:center;gap:6px}
+.bal{font-size:36px;font-weight:800;margin:6px 0 2px;letter-spacing:-.5px}
+.eye{background:none;border:0;color:var(--sb);padding:0;display:flex}
+.pts{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--ln);font-size:13px}
+.pts b{color:var(--ac)}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;text-align:center}
+.g4 button{border:0;background:none;color:var(--tx);font-size:12px;font-weight:700;padding:6px 0}
+.ib{width:52px;height:52px;border-radius:16px;background:color-mix(in srgb,var(--ac) 12%,transparent);color:var(--ac);display:flex;align-items:center;justify-content:center;margin:0 auto 7px}
+h3{margin:0 0 6px;font-size:15px;font-weight:800}
+.rw{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--ln)}
+.rw:last-child{border:0}.rw .t{flex:1;font-size:14px;font-weight:600}.rw small{display:block;color:var(--sb);font-size:11px;font-weight:400;margin-top:2px}
+.rw .a{font-weight:800;font-size:15px}.pl{color:#0a9d4a}
+.av{width:38px;height:38px;border-radius:50%;background:var(--ln);display:flex;align-items:center;justify-content:center;color:var(--sb)}
+.em{text-align:center;color:var(--sb);padding:24px 0;font-size:13px}
+.btn{display:block;width:100%;border:0;background:var(--ac);color:#fff;font-size:17px;font-weight:800;padding:16px;border-radius:32px;margin-top:12px;box-shadow:0 4px 12px color-mix(in srgb,var(--ac) 35%,transparent)}
+.btn:active{transform:scale(.98)}.btn.g{background:var(--ln);color:var(--tx);box-shadow:none}
+.amt{font-size:44px;font-weight:800;text-align:center;margin:8px 0 14px;letter-spacing:-1px}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pad button{border:0;background:var(--bg);color:var(--tx);font-size:24px;font-weight:700;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center}
+.pad button:active{background:var(--ln)}
+input{width:100%;font-size:17px;padding:14px;border:1.5px solid var(--ln);border-radius:12px;background:var(--bg);color:var(--tx);margin-bottom:10px;outline:0}
+input:focus{border-color:var(--ac)}
+.chips{display:flex;gap:8px;margin-bottom:12px}.chips button{flex:1;border:1.5px solid var(--ln);background:var(--cd);color:var(--tx);padding:10px 0;border-radius:20px;font-weight:700;font-size:13px}
+.ctr{text-align:center}
+.tb{position:fixed;left:0;right:0;bottom:0;background:var(--cd);border-top:1px solid var(--ln);padding:6px 0 calc(6px + env(safe-area-inset-bottom,0px));z-index:5}
+.tbi{max-width:480px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr;align-items:end}
+.tb button{border:0;background:none;color:var(--sb);font-size:10px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 0}
+.tb button.on{color:var(--ac)}
+.tb .mid{margin-top:-26px;color:var(--ac)}
+.tb .mid span{width:62px;height:62px;border-radius:50%;background:linear-gradient(160deg,var(--ac),var(--ac2));color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px color-mix(in srgb,var(--ac) 45%,transparent);border:4px solid var(--cd)}
+.full{position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;max-width:480px;margin:0 auto;padding-top:env(safe-area-inset-top,0px)}
+.pay{background:linear-gradient(170deg,var(--ac),var(--ac2));color:#fff}
+.pay .cd{color:var(--tx)}
+.scn{background:linear-gradient(170deg,var(--ac),var(--ac2));color:#fff}
+.fr{position:relative;width:240px;height:240px;margin:auto;background:rgba(255,255,255,.14);border-radius:18px}
+.fr b{position:absolute;width:44px;height:44px;border:5px solid #fff;border-radius:10px}
+.fr b:nth-child(1){left:0;top:0;border-right:0;border-bottom:0}.fr b:nth-child(2){right:0;top:0;border-left:0;border-bottom:0}
+.fr b:nth-child(3){left:0;bottom:0;border-right:0;border-top:0}.fr b:nth-child(4){right:0;bottom:0;border-left:0;border-top:0}
+.fr u{position:absolute;left:8px;right:8px;height:3px;background:#fff;box-shadow:0 0 14px #fff;animation:ln 1.4s ease-in-out infinite alternate}
+@keyframes ln{from{top:8px}to{top:226px}}
+.dn{background:linear-gradient(170deg,var(--ac),var(--ac2));color:#fff;align-items:center;justify-content:center;text-align:center;padding:24px}
+.ring{width:110px;height:110px;border-radius:50%;background:#fff;color:var(--ac);display:flex;align-items:center;justify-content:center;animation:pop .6s cubic-bezier(.2,1.4,.4,1);box-shadow:0 0 0 0 rgba(255,255,255,.6)}
+.ring svg path{stroke-dasharray:30;stroke-dashoffset:30;animation:dr .5s .35s forwards}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}@keyframes dr{to{stroke-dashoffset:0}}
+.dn .btn{background:#fff;color:var(--ac);max-width:320px;box-shadow:none}
+.tt{position:fixed;bottom:110px;left:50%;transform:translateX(-50%);background:var(--ac);box-shadow:0 4px 14px rgba(0,0,0,.2);color:#fff;padding:11px 20px;border-radius:22px;font-size:13px;font-weight:600;z-index:40;white-space:nowrap}
+.bd{display:inline-block;background:color-mix(in srgb,var(--ac) 12%,transparent);color:var(--ac);font-size:11px;font-weight:800;padding:3px 10px;border-radius:10px}
+.bx{background:#fff;border-radius:14px;padding:10px;display:inline-block;line-height:0}
+.pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.22);padding:6px 12px;border-radius:18px;font-size:12px;font-weight:800}
+.pill i{width:16px;height:16px;border-radius:50%;background:#ffd400;display:inline-block}
+.bn{margin:0 14px 14px;border-radius:18px;padding:18px;color:#fff;background:linear-gradient(120deg,#ff0033,#ff7a45);display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:15px;line-height:1.5}
+.bn small{display:block;font-weight:600;font-size:11px;opacity:.9}.bn b{background:#fff;color:#ff0033;padding:8px 14px;border-radius:20px;font-size:12px}
+.sv{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 4px;text-align:center}
+.sv button{border:0;background:none;color:var(--tx);font-size:11px;font-weight:700;padding:0}
+.sv .ib{width:46px;height:46px;border-radius:14px;margin-bottom:6px;background:var(--bg)}
+.top2{display:flex;justify-content:space-between;align-items:center}
+.cbtn{border:0;background:var(--ac);color:#fff;font-weight:800;font-size:12px;padding:9px 16px;border-radius:18px}
+.wk{display:flex;align-items:flex-end;gap:8px;height:90px;margin-top:10px}.wk div{flex:1;border-radius:6px 6px 0 0;background:color-mix(in srgb,var(--ac) 25%,transparent);text-align:center;font-size:10px;color:var(--sb);position:relative}
+.wk div.t{background:var(--ac)}.wk span{position:absolute;bottom:-17px;left:0;right:0}
+.mk{display:inline-flex;width:28px;height:28px;border-radius:8px;background:#fff;color:var(--ac);font-weight:900;font-size:18px;align-items:center;justify-content:center;margin-right:8px;vertical-align:-5px;font-style:normal}
+.mk.big{width:84px;height:84px;border-radius:24px;font-size:56px;margin:0 0 16px;animation:pop .6s cubic-bezier(.2,1.4,.4,1)}
+#sp{position:fixed;inset:0;z-index:99;background:linear-gradient(160deg,#ff0033,#ff4d6a);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-size:26px;font-weight:900;transition:opacity .4s}
+#sp.o{opacity:0;pointer-events:none}
+.pg{animation:pgin .3s ease both}@keyframes pgin{from{opacity:0}}
+.cdn{height:4px;background:var(--ln);border-radius:2px;margin-top:14px;overflow:hidden}.cdn u{display:block;height:100%;background:var(--ac);transition:width 1s linear}
+.chips button.sel{border-color:var(--ac);color:var(--ac);background:color-mix(in srgb,var(--ac) 8%,transparent)}
+.sh{position:fixed;inset:0;z-index:30;display:flex;align-items:flex-end;justify-content:center}.shb{position:absolute;inset:0;background:rgba(0,0,0,.45);animation:fi .2s}
+.shc{position:relative;background:var(--cd);width:100%;max-width:480px;border-radius:24px 24px 0 0;padding:12px 18px calc(18px + env(safe-area-inset-bottom,0px));animation:su .3s cubic-bezier(.2,.9,.3,1);color:var(--tx)}
+.hl{width:40px;height:5px;border-radius:3px;background:var(--ln);margin:0 auto 14px}
+@keyframes fi{from{opacity:0}}@keyframes su{from{transform:translateY(100%)}}
+.rw{cursor:pointer}.rw span{font-size:13px;color:var(--sb)}
+.g4 button:active,.sv button:active{transform:scale(.93)}
+.scw{position:relative;width:300px;max-width:100%;height:170px;margin:0 auto;border-radius:16px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.prz{position:absolute;inset:0;background:linear-gradient(135deg,#fff4c2,#ffd400);color:#6b5400;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.prz b{font-size:54px;line-height:1.1}.prz small{font-size:12px;font-weight:800}
+#cv{position:absolute;inset:0;width:100%;height:100%;touch-action:none;border-radius:16px}
+.vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}
+.sw{display:flex;justify-content:space-between;align-items:center;padding:6px 0}
+.cardf{border-radius:18px;padding:20px;color:#fff;background:linear-gradient(135deg,#ff0033,#ff7a45 70%,#ffb300);height:190px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 8px 20px rgba(255,0,51,.3)}
+.dt{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ac);margin-left:4px}
+</style><script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script></head><body>
+<div id="app"></div><div id="sp"><div class="mk big">T</div>テイテイ</div>
+<script>
+var prize=1,flt="all",meth="銀行口座",bc=0,cnt=30,pt2=null,lk="",KEY="teitei_v2",S=null,view="home",mode="c",amt="",to="",hide=false,tm=null,pending=null;
+try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+function fresh(){return{bal:12480,pts:128,sales:0,hist:[],sh:[],cp:[{id:1,t:"100円OFF",sub:"500円以上のお支払いで",k:"f",v:100,min:500,got:false,used:false},{id:2,t:"10%OFF（最大300円）",sub:"1,000円以上のお支払いで",k:"p",v:10,max:300,min:1000,got:false,used:false},{id:3,t:"ポイント2倍",sub:"どのお支払いでもOK",k:"x",min:0,got:false,used:false}],inv:0,invv:0,invh:[],cardOn:true,omi:null,fr:[{n:"さくら"},{n:"たくや"}],nt:[{t:"テイテイへようこそ！毎日スクラッチを削ってポイントをためよう",ts:"11/1 09:00",r:false},{t:"新しいクーポンが届いています",ts:"11/1 09:01",r:false}],name:"テイテイ太郎",shop:"テイテイ珈琲 渋谷店",id:"teitei_user",snd:true}}
+if(!S)S=fresh();var dfl=fresh();for(var k0 in dfl)if(S[k0]===undefined)S[k0]=dfl[k0];
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+var P={gear:"M12 15a3 3 0 100-6 3 3 0 000 6zM19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z",home:"M3 11l9-8 9 8v10h-6v-6H9v6H3z",scan:"M4 8V5a1 1 0 011-1h3M16 4h3a1 1 0 011 1v3M20 16v3a1 1 0 01-1 1h-3M8 20H5a1 1 0 01-1-1v-3M4 12h16",send:"M4 12h15M13 6l6 6-6 6",plus:"M12 5v14M5 12h14",list:"M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6",back:"M15 4l-8 8 8 8",check:"M5 12.5l5 5 9-11",eye:"M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 9a3 3 0 100 6 3 3 0 000-6z",eyeoff:"M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM4 4l16 16",user:"M12 12a4 4 0 100-8 4 4 0 000 8zM4 21c0-4 4-6 8-6s8 2 8 6",qr:"M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2v6h-4M14 18h2v2h-2z",gift:"M4 10h16v10H4zM3 7h18v3H3zM12 7v13M12 7c-2 0-4-1-4-2.5S10 2 12 7zM12 7c2 0 4-1 4-2.5S14 2 12 7z",tag:"M3 12V4h8l10 10-8 8zM7.5 8.5h.01",chart:"M4 20V10M10 20V4M16 20v-7M22 20H2",bell:"M6 16V11a6 6 0 0112 0v5l2 2H4zM10 21h4",grid:"M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z",card:"M3 6h18v12H3zM3 10h18",down:"M12 4v14M6 12l6 6 6-6",star:"M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z",bs:"M21 5H9l-6 7 6 7h12zM14 10l-4 4M10 10l4 4"};
+function I(n,s,w){s=s||24;return'<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="'+(w||2)+'" stroke-linecap="round" stroke-linejoin="round"><path d="'+P[n]+'"/></svg>'}
+function yen(n){return"¥"+Number(n).toLocaleString("ja-JP")}
+function now(){var d=new Date();return(d.getMonth()+1)+"/"+d.getDate()+" "+("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2)}
+function toast(m){var t=document.createElement("div");t.className="tt";t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove()},1900)}
+function rng(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return function(){h^=h<<13;h^=h>>>17;h^=h<<5;return(h>>>0)/4294967296}}
+function qr(t,z){if(typeof qrcode=="undefined")return qr0(t,z);try{var q=qrcode(0,"M");q.addData(t);q.make();var n=q.getModuleCount(),c="",x,y;for(y=0;y<n;y++)for(x=0;x<n;x++)if(q.isDark(y,x))c+='<rect x="'+x+'" y="'+y+'" width="1.02" height="1.02"/>';return'<svg viewBox="0 0 '+n+" "+n+'" width="'+z+'" height="'+z+'" fill="#111" shape-rendering="crispEdges">'+c+"</svg>"}catch(e){return qr0(t,z)}}
+function qr0(t,z){var n=29,r=rng(t),c="",x,y,fx,fy,on;
+ for(y=0;y<n;y++)for(x=0;x<n;x++){
+  if((x<8&&y<8)||(x>n-9&&y<8)||(x<8&&y>n-9)){fx=x<8?x:x-(n-7);fy=y<8?y:y-(n-7);if(x>n-9)fx=x-(n-7);if(y>n-9)fy=y-(n-7);
+   on=fx>=0&&fx<7&&fy>=0&&fy<7&&(fx==0||fx==6||fy==0||fy==6||(fx>1&&fx<5&&fy>1&&fy<5))}
+  else on=r()>.52;
+  if(on)c+='<rect x="'+x+'" y="'+y+'" width="1.02" height="1.02"/>'}
+ return'<svg viewBox="0 0 '+n+" "+n+'" width="'+z+'" height="'+z+'" fill="#111" shape-rendering="crispEdges">'+c+"</svg>"}
+function bar(t){var r=rng(t),x=0,s="";while(x<320){var w=1+Math.floor(r()*3);s+='<rect x="'+x+'" y="0" width="'+w+'" height="80"/>';x+=w+1+Math.floor(r()*3)}
+ return'<svg viewBox="0 0 320 80" width="100%" height="80" fill="#111" preserveAspectRatio="none">'+s+"</svg>"}
+function setMode(m){mode=m;flt="all";view="home";amt="";render()}
+function go(v){clearTimeout(tm);clearInterval(pt2);stopCam();view=v;amt="";render();if(v=="scan")startCam();if(v=="scratch"){var r=Math.random();prize=r<.5?1:r<.8?5:r<.93?10:r<.99?50:100;render();initScr()}if(v=="pay"){cnt=30;pt2=setInterval(tick,1000)}if(v=="inv")pt2=setInterval(function(){if(view!="inv"){clearInterval(pt2);return}invStep();render()},5000);}
+function initScr(){var c=document.getElementById("cv");if(!c)return;var x=c.getContext("2d"),g=x.createLinearGradient(0,0,300,170);g.addColorStop(0,"#d9dce3");g.addColorStop(.5,"#f5f6f9");g.addColorStop(1,"#c3c7d0");x.fillStyle=g;x.fillRect(0,0,300,170);
+ x.fillStyle="rgba(120,125,140,.55)";x.font="800 26px sans-serif";x.textAlign="center";x.fillText("SCRATCH",150,92);x.font="700 12px sans-serif";x.fillText("ここをこすってね",150,118);
+ var dn=false,dw=false;function at(e){var b=c.getBoundingClientRect();x.globalCompositeOperation="destination-out";x.beginPath();x.arc((e.clientX-b.left)*300/b.width,(e.clientY-b.top)*170/b.height,20,0,7);x.fill()}
+ function chk(){var d=x.getImageData(0,0,300,170).data,n=0,t=0;for(var i=3;i<d.length;i+=40){t++;if(d[i]<20)n++}return n/t}
+ function fin(){if(dn)return;dn=true;x.clearRect(0,0,300,170);S.pts+=prize;S.scr=new Date().toDateString();S.scrp=prize;nt("スクラッチで "+prize+"P を獲得しました");save();snd();document.getElementById("sm").innerHTML="<b style='color:var(--ac);font-size:16px'>"+prize+" ポイントを獲得しました！</b>"}
+ c.onpointerdown=function(e){dw=true;c.setPointerCapture(e.pointerId);at(e)};c.onpointermove=function(e){if(!dw||dn)return;at(e);if(chk()>.5)fin()};c.onpointerup=function(){dw=false;if(!dn&&chk()>.5)fin()}}
+var stream=null,raf=0,lastT=0,cc=document.createElement("canvas");
+function stopCam(){cancelAnimationFrame(raf);if(stream){stream.getTracks().forEach(function(t){t.stop()});stream=null}}
+function camFail(){var e=document.getElementById("cmsg");if(e)e.innerHTML='カメラを使えませんでした。ブラウザのカメラ許可を確認してください。<br><button class="btn" style="background:#fff;color:var(--ac);box-shadow:none;margin-top:10px" onclick="found()">デモ読み取り（請求がある場合）</button>'}
+function startCam(){var v=document.getElementById("vd");if(!v)return;if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||typeof jsQR=="undefined"){camFail();return}
+ navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"},audio:false}).then(function(st){if(view!="scan"){st.getTracks().forEach(function(t){t.stop()});return}stream=st;v.srcObject=st;v.muted=true;v.style.display="block";return v.play()}).then(function(){if(stream)loop()}).catch(camFail)}
+function loop(){var v=document.getElementById("vd");if(!v||view!="scan")return;var n=Date.now();if(n-lastT>120&&v.readyState>=2&&v.videoWidth){lastT=n;var w=Math.min(480,v.videoWidth),h=Math.round(w*v.videoHeight/v.videoWidth);cc.width=w;cc.height=h;var x=cc.getContext("2d",{willReadFrequently:true});x.drawImage(v,0,0,w,h);var r=jsQR(x.getImageData(0,0,w,h).data,w,h);if(r&&r.data)onCode(r.data)}raf=requestAnimationFrame(loop)}
+var warnT=0;
+function onCode(t){var m=/^TEITEI:(\d+):([^:]+)(?::(.*))?$/.exec(t);if(!m){if(Date.now()-warnT>2500){warnT=Date.now();toast("テイテイのQRコードではありません")}return}
+ var a=+m[1],sh="";if(!a)return;try{sh=m[3]?decodeURIComponent(m[3]):""}catch(e){}
+ var ext=!(pending&&pending.id==m[2]);stopCam();pending={id:m[2],amt:a,shop:sh,ext:ext};view="confirm";render()}
+var useCp=0,showCard=false,ppl=2;
+function bt(fn,l,c){return'<button class="'+(c||"cbtn")+'" onclick="'+fn+'">'+l+'</button>'}
+function nt(t){S.nt.unshift({t:t,ts:now(),r:false});S.nt=S.nt.slice(0,30)}
+function unr(){return S.nt.some(function(n){return!n.r})}
+function cpOff(p){var c=S.cp.filter(function(c){return c.id==useCp&&c.got&&!c.used})[0];if(!c||p.amt<c.min)return{c:null,off:0};var off=c.k=="f"?c.v:c.k=="p"?Math.min(c.max,Math.floor(p.amt*c.v/100)):0;return{c:c,off:Math.min(off,p.amt)}}
+function cpLine(p){var o=cpOff(p);return o.c?o.c.t+(o.off?"（−"+yen(o.off)+"）":""):"なし"}
+function cpChips(p){var a=S.cp.filter(function(c){return c.got&&!c.used});if(!a.length)return'<div class="cd"><p class="lb">使えるクーポンがありません（サービス → クーポンで取得できます）</p></div>';return'<div class="cd"><h3>使えるクーポン</h3><div class="chips" style="flex-wrap:wrap;margin:8px 0 0">'+a.map(function(c){return'<button class="'+(useCp==c.id?"sel":"")+'" onclick="pickCp('+c.id+')">'+c.t+'</button>'}).join("")+'</div></div>'}
+function pickCp(id){var c=S.cp.filter(function(c){return c.id==id})[0];if(pending&&pending.amt<c.min)return toast(yen(c.min)+"以上の支払いで使えます");useCp=useCp==id?0:id;render()}
+function getCp(id){var c=S.cp.filter(function(c){return c.id==id})[0];c.got=true;nt("クーポン「"+c.t+"」を取得しました");save();toast("取得しました");render()}
+function xch(){var n=+amt;if(!n)return toast("ポイント数を入力してください");if(n>S.pts)return toast("ポイントが足りません");S.pts-=n;S.bal+=n;S.hist.unshift({t:"ポイント交換",i:"star",d:n,ts:now()});nt(n+"P を残高に交換しました");save();done("交換が完了しました",n,"残高に追加しました")}
+function invStep(){if(S.invv>0){S.invv=Math.max(1,Math.round(S.invv*(1+(Math.random()-.48)*.012)));S.invh.push(S.invv);if(S.invh.length>40)S.invh.shift();save()}}
+function invAdd(){var n=+amt;if(!n)return toast("金額を入力してください");if(n>S.bal)return toast("残高が不足しています");S.bal-=n;S.inv+=n;S.invv+=n;S.invh.push(S.invv);S.hist.unshift({t:"運用に追加",i:"chart",d:-n,ts:now()});save();amt="";toast("運用に追加しました");render()}
+function invOut(){var n=+amt;if(!n)return toast("金額を入力してください");if(n>S.invv)return toast("運用額を超えています");var r=n/S.invv;S.inv=Math.max(0,S.inv-Math.round(S.inv*r));S.invv-=n;S.bal+=n;if(S.invv<=0){S.inv=0;S.invv=0;S.invh=[]}else S.invh.push(S.invv);S.hist.unshift({t:"運用から引き出し",i:"chart",d:n,ts:now()});save();amt="";toast("残高に戻しました");render()}
+function spark(a){if(a.length<2)return'<div class="em">運用を始めるとグラフが表示されます</div>';var mn=Math.min.apply(0,a),mx=Math.max.apply(0,a),r=(mx-mn)||1,p=a.map(function(y,i){return(i/(a.length-1)*300).toFixed(1)+","+(70-(y-mn)/r*60).toFixed(1)}).join(" ");return'<svg viewBox="0 0 300 80" width="100%" height="80" preserveAspectRatio="none"><polyline points="'+p+'" fill="none" stroke="var(--ac)" stroke-width="2.5" stroke-linejoin="round"/></svg>'}
+function addFr(){var v=cl(document.getElementById("fn").value);if(!v)return toast("名前を入力してください");S.fr.push({n:v});save();render()}
+function delFr(i){S.fr.splice(i,1);save();render()}
+function sendTo(i){to=S.fr[i].n;go("send")}
+function omi(){var d=new Date().toDateString();if(S.omi&&S.omi.d==d)return toast("今日はもう引きました");var t=[["大吉",10],["中吉",5],["小吉",3],["吉",2],["末吉",1],["凶",0]],w=[.1,.2,.25,.25,.15,.05],r=Math.random(),a=0,k=0;for(;k<5;k++){a+=w[k];if(r<a)break}S.omi={d:d,r:t[k][0],p:t[k][1]};S.pts+=t[k][1];nt("おみくじ："+t[k][0]+"（+"+t[k][1]+"P）");save();snd();render()}
+function svc(h){var v=view,i;
+ if(v=="cp")return h+'<div class="cd up"><h3>クーポン</h3>'+S.cp.map(function(c){return'<div class="rw" style="cursor:default"><div class="av" style="color:var(--ac)">'+I("tag",18)+'</div><div class="t">'+c.t+'<small>'+c.sub+'</small></div>'+(c.used?'<span>使用済み</span>':c.got?'<span style="color:#0a9d4a;font-weight:800">取得済み</span>':bt("getCp("+c.id+")","取得"))+'</div>'}).join("")+'</div><div class="cd"><p class="lb">取得したクーポンは、支払い確認画面で選んで使えます。</p></div>';
+ if(v=="pts")return h+'<div class="cd up ctr"><div class="lb" style="justify-content:center">保有ポイント</div><div class="bal">'+S.pts+' P</div></div><div class="cd"><h3>スクラッチ</h3><p class="lb">毎日1回、最大100Pが当たります</p>'+bt("go('scratch')","スクラッチを削る","btn")+'</div><div class="cd"><h3>ポイントを残高に交換</h3><div class="amt">'+(amt||0)+' P</div>'+pad()+bt("xch()","1P＝1円で交換する","btn")+'</div>';
+ if(v=="inv"){var g=S.invv-S.inv,pc=S.inv?g/S.inv*100:0;return h+'<div class="cd up"><div class="lb">運用評価額（デモ）</div><div class="bal">'+yen(S.invv)+'</div><div style="font-weight:800;color:'+(g<0?"#e5001f":"#0a9d4a")+'">'+(g<0?"−":"+")+yen(Math.abs(g))+'（'+pc.toFixed(2)+'%）</div>'+spark(S.invh)+'</div><div class="cd"><div class="lb" style="justify-content:center">金額（残高 '+yen(S.bal)+'）</div><div class="amt">'+yen(amt||0)+'</div>'+pad()+'<div style="display:flex;gap:8px">'+bt("invAdd()","運用に追加","btn")+bt("invOut()","引き出す","btn g")+'</div><p class="lb" style="margin-top:12px">※ 値動きはデモ用の架空のものです。実際の投資ではありません。</p></div>'}
+ if(v=="card")return h+'<div class="cd up" style="background:none;box-shadow:none;padding:0"><div class="cardf"><div style="display:flex;justify-content:space-between;font-weight:900"><span>テイテイ カード</span><span style="font-size:12px;font-weight:700">'+(S.cardOn===false?"ロック中":"利用可能")+'</span></div><div style="font-size:21px;letter-spacing:2px;font-weight:700">'+(showCard?"4921 0386 7715 2048":"•••• •••• •••• 2048")+'</div><div style="display:flex;justify-content:space-between;font-size:13px"><span>'+S.name+'</span><span>有効期限 12/29 ・ CVC '+(showCard?"731":"•••")+'</span></div></div></div><div class="cd"><div class="sw"><span>カード番号を表示</span>'+bt("showCard=!showCard;render()",showCard?"隠す":"表示")+'</div><div class="sw"><span>支払いロック</span>'+bt("S.cardOn=S.cardOn===false;save();render()",S.cardOn===false?"解除する":"ロックする")+'</div><p class="lb" style="margin-top:8px">ロック中は、バーコード・QRでの支払いができません。</p></div>';
+ if(v=="nt"){var l=S.nt.length?S.nt.map(function(n){return'<div class="rw" style="cursor:default"><div class="av" style="color:var(--ac)">'+I("bell",18)+'</div><div class="t">'+n.t+'<small>'+n.ts+'</small></div>'+(n.r?"":'<i class="dt"></i>')+'</div>'}).join(""):'<div class="em">お知らせはありません</div>';S.nt.forEach(function(n){n.r=true});save();return h+'<div class="cd up"><h3>お知らせ</h3>'+l+'</div>'}
+ if(v=="fr")return h+'<div class="cd up"><h3>友だちを追加</h3><input id="fn" maxlength="12" placeholder="友だちの名前">'+bt("addFr()","追加","btn")+'</div><div class="cd"><h3>友だち（'+S.fr.length+'）</h3>'+(S.fr.length?S.fr.map(function(f,i){return'<div class="rw" style="cursor:default"><div class="av">'+I("user",18)+'</div><div class="t">'+f.n+'</div>'+bt("sendTo("+i+")","送る")+'<button class="cbtn" style="background:var(--ln);color:var(--tx);margin-left:6px" onclick="delFr('+i+')">削除</button></div>'}).join(""):'<div class="em">まだ友だちがいません</div>')+'</div>';
+ if(v=="mini")return h+'<div class="cd up"><h3>ミニアプリ</h3><div class="sv" style="grid-template-columns:repeat(2,1fr);gap:12px"><button onclick="go(\'split\')"><div class="ib" style="width:100%;height:84px">'+I("grid",30)+'</div>割り勘計算</button><button onclick="go(\'omi\')"><div class="ib" style="width:100%;height:84px">'+I("star",30)+'</div>おみくじ</button></div></div>';
+ if(v=="split"){var per=amt?Math.ceil(+amt/ppl):0;return h+'<div class="cd up"><div class="lb" style="justify-content:center">合計金額</div><div class="amt">'+yen(amt||0)+'</div><div class="chips">'+[2,3,4,5,6].map(function(n){return'<button class="'+(ppl==n?"sel":"")+'" onclick="ppl='+n+';render()">'+n+'人</button>'}).join("")+'</div>'+pad()+'<div class="rw" style="cursor:default"><div class="t">1人あたり</div><b style="font-size:20px">'+yen(per)+'</b></div>'+bt("if("+per+"){go(\'send\');amt=\'"+per+"\';render()}else toast(\'金額を入力してください\')","1人分を友だちに送る","btn")+'</div>'}
+ if(v=="omi"){var o=S.omi&&S.omi.d==new Date().toDateString()?S.omi:null;return h+'<div class="cd up ctr"><span class="bd">毎日1回</span><div style="font-size:72px;font-weight:900;margin:18px 0 6px;color:var(--ac)">'+(o?o.r:"？")+'</div><p class="lb" style="justify-content:center">'+(o?"+"+o.p+"P を獲得しました。また明日！":"今日の運勢を占って、ポイントをもらおう")+'</p>'+(o?"":bt("omi()","おみくじを引く","btn"))+'</div>'}
+ if(v=="kake"){var sp=S.hist.filter(function(x){return x.d<0}),tot=0,c={a:0,b:0,c:0},dy=[],mp={};sp.slice().reverse().forEach(function(x){tot-=x.d;(x.i=="qr"?c.a-=x.d:x.i=="user"?c.b-=x.d:c.c-=x.d);var k=x.ts.split(" ")[0];if(!(k in mp)){mp[k]=0;dy.push(k)}mp[k]-=x.d});dy=dy.slice(-7);var mx=Math.max.apply(0,dy.map(function(k){return mp[k]}).concat([1]));
+  return h+'<div class="cd up"><div class="lb">これまでの支出</div><div class="bal">'+yen(tot)+'</div><div class="lb">'+sp.length+'件の支出</div></div><div class="cd" style="padding-bottom:40px"><h3>日別の支出</h3>'+(dy.length?'<div class="wk">'+dy.map(function(k){return'<div class="t" style="height:'+Math.max(6,Math.round(mp[k]/mx*100))+'%"><span>'+k+'</span></div>'}).join("")+'</div>':'<div class="em">まだ支出がありません</div>')+'</div><div class="cd"><h3>カテゴリ別</h3><div class="rw" style="cursor:default"><div class="t">お店での支払い</div><b>'+yen(c.a)+'</b></div><div class="rw" style="cursor:default"><div class="t">送金</div><b>'+yen(c.b)+'</b></div><div class="rw" style="cursor:default"><div class="t">運用・その他</div><b>'+yen(c.c)+'</b></div></div>'}
+ return null}
+function cl(v){return v.replace(/[<>&"'`]/g,"").trim()}
+var rs=false;
+function rstf(){if(!rs){rs=true;toast("もう一度押すと初期化されます");setTimeout(function(){rs=false},4000);return}S=fresh();pending=null;save();rs=false;go("home")}
+function inp(lb,key,ph){return'<div class="lb" style="margin:10px 0 6px">'+lb+'</div><input value="'+S[key]+'" maxlength="16" placeholder="'+ph+'" onchange="var v=cl(this.value);'+(key=="id"?"v=v.replace(/\\W/g,\'\');":"")+'if(v){S.'+key+'=v;save();toast(\'保存しました\');render()}">'}
+function setv(h){var c=mode=="c";return h+'<div class="cd up"><div class="top2" style="justify-content:flex-start;gap:14px"><div class="av" style="width:64px;height:64px;background:var(--ac);color:#fff;font-size:26px;font-weight:800">'+(c?S.name:S.shop).slice(0,1)+'</div><div><b style="font-size:18px">'+(c?S.name:S.shop)+'</b><div class="lb">ID: '+S.id+'</div></div></div></div><div class="cd"><h3>プロフィール</h3>'+(c?inp("ユーザー名","name","名前を入力"):inp("店舗名","shop","店舗名を入力"))+inp("テイテイID（英数字）","id","teitei_user")+'</div><div class="cd"><h3>設定</h3><div class="sw"><span>決済音</span><button class="cbtn" onclick="S.snd=S.snd===false;save();render()">'+(S.snd===false?"オフ":"オン")+'</button></div><div class="sw"><span>残高を隠す</span><button class="cbtn" onclick="hide=!hide;render()">'+(hide?"オン":"オフ")+'</button></div></div><div class="cd"><h3>データ</h3><button class="btn g" style="color:#e5001f" onclick="rstf()">データを初期化する</button></div>'}
+function tick(){if(view!="pay"){clearInterval(pt2);return}cnt--;if(cnt<=0){cnt=30;bc++;var e=document.getElementById("bcs");if(e)e.innerHTML=bar("teitei-"+bc)}var n=document.getElementById("bcn");if(n)n.textContent=cnt;var b=document.getElementById("bcb");if(b)b.style.width=(cnt/30*100)+"%"}
+function snd(){if(S.snd===false)return;try{var c=new(window.AudioContext||window.webkitAudioContext)(),t=c.currentTime;[[988,0],[1318,.13],[1760,.26]].forEach(function(f){var o=c.createOscillator(),g=c.createGain();o.type="sine";o.frequency.value=f[0];o.connect(g);g.connect(c.destination);g.gain.setValueAtTime(0,t+f[1]);g.gain.linearRampToValueAtTime(.25,t+f[1]+.02);g.gain.exponentialRampToValueAtTime(.001,t+f[1]+.3);o.start(t+f[1]);o.stop(t+f[1]+.32)})}catch(e){}}
+function det(k,n){var h=S[k][n],p=h.d>0,d=document.createElement("div");d.className="sh";d.innerHTML='<div class="shb"></div><div class="shc"><div class="hl"></div><div class="lb" style="justify-content:center">'+h.t+'</div><div class="amt" style="margin:6px 0 10px">'+(p?"+":"−")+yen(Math.abs(h.d))+'</div><div class="rw"><div class="t">日時</div><span>'+h.ts+'</span></div><div class="rw"><div class="t">取引ID</div><span>TT'+(104729+n*7919)+'</span></div><div class="rw"><div class="t">支払い方法</div><span>テイテイ残高</span></div>'+(k=="sh"&&p&&!h.rf?'<button class="btn g" id="rf" style="color:#e5001f">この取引を返金する</button>':"")+'<button class="btn" id="cl">閉じる</button></div>';document.body.appendChild(d);
+ var x=function(){d.remove()};d.querySelector("#cl").onclick=x;d.querySelector(".shb").onclick=x;
+ var r=d.querySelector("#rf");if(r)r.onclick=function(){S.bal+=h.d;S.sales-=h.d;h.rf=true;S.sh.unshift({t:"返金",i:"back",d:-h.d,ts:now()});S.hist.unshift({t:"返金（"+S.shop+"）",i:"down",d:h.d,ts:now()});save();x();toast("返金しました");render()}}
+function key(k){if(k=="d")amt=amt.slice(0,-1);else if(amt.length<7&&!(amt===""&&k=="0"))amt+=k;render()}
+function pad(){var h="";"123456789".split("").concat(["C","0","d"]).forEach(function(k){h+='<button onclick="'+(k=="C"?"amt='';render()":"key('"+k+"')")+'">'+(k=="d"?I("bs",26):k=="C"?'<span style="font-size:16px;color:var(--sb)">クリア</span>':k)+"</button>"});return'<div class="pad">'+h+"</div>"}
+function hdr(t){return view=="home"?'<div class="hd"><span class="logo"><span class="mk">T</span>テイテイ'+(mode=="s"?"<i>ストア</i>":"")+'</span><div style="display:flex;align-items:center;gap:4px"><div class="seg"><button class="'+(mode=="c"?"on":"")+'" onclick="setMode(\'c\')">お客様</button><button class="'+(mode=="s"?"on":"")+'" onclick="setMode(\'s\')">お店</button></div><button class="bk" style="width:34px" onclick="go(\'set\')">'+I("gear",24)+'</button></div></div>':'<div class="hd sm"><button class="bk" onclick="go(\'home\')">'+I("back",24,2.5)+'</button><span class="ttl">'+t+'</span><span style="width:40px"></span></div>'}
+function rows(a,k){var em='<div class="em">まだ取引がありません</div>';if(!a.length)return em;var l=a.map(function(h,n){return{h:h,n:n}});if(view=="hist"&&mode=="c"&&flt!="all")l=l.filter(function(o){return flt=="pay"?o.h.i=="qr":o.h.i!="qr"});if(!l.length)return em;return l.slice(0,view=="home"?5:40).map(function(o){var h=o.h,p=h.d>0;return'<div class="rw" onclick="det(\''+k+'\','+o.n+')"><div class="av">'+I(h.i,18)+'</div><div class="t">'+h.t+(h.rf?"（返金済み）":"")+"<small>"+h.ts+'</small></div><div class="a '+(p?"pl":"")+'">'+(p?"+":"−")+yen(Math.abs(h.d))+"</div></div>"}).join("")}
+function acts(l){return'<div class="cd"><div class="g4">'+l.map(function(b){return'<button onclick="go(\''+b[0]+'\')"><div class="ib">'+I(b[1],26)+"</div>"+b[2]+"</button>"}).join("")+"</div></div>"}
+function tabs(){if(["pay","scan","confirm"].indexOf(view)>=0)return"";var c=mode=="c",m=c?["pay","scan","支払う"]:["bill","qr","請求"];
+ return'<div class="tb"><div class="tbi"><button class="'+(view=="home"?"on":"")+'" onclick="go(\'home\')">'+I("home",24)+'ホーム</button><button class="mid" onclick="go(\''+m[0]+'\')"><span>'+I(m[1],30)+"</span>"+m[2]+'</button><button class="'+(view=="hist"?"on":"")+'" onclick="go(\'hist\')">'+I("list",24)+"履歴</button></div></div>"}
+function cust(){
+ if(view=="pay")return'<div class="full pay"><div class="hd sm" style="background:none"><button class="bk" onclick="go(\'home\')">'+I("back",24,2.5)+'</button><span class="ttl">支払い</span><span style="width:40px"></span></div><div class="cd ctr" style="margin-top:6px;padding:24px 20px"><span class="bd">バーコード支払い</span><p class="lb" style="justify-content:center;margin:10px 0 16px">お店の方にバーコードを見せてください</p>'+'<div id="bcs">'+bar("teitei-"+bc)+'</div><div class="cdn"><u id="bcb" style="width:100%"></u></div><div class="lb" style="justify-content:center;margin-top:8px">コードは <b id="bcn">'+cnt+'</b> 秒ごとに更新されます</div>'+'<p style="margin:14px 0 2px;font-size:12px;color:var(--sb);letter-spacing:3px">4921 0386 7715</p><div class="lb" style="justify-content:center">テイテイ残高 '+yen(S.bal)+'</div></div><div style="padding:0 14px"><button class="btn" style="background:#fff;color:var(--ac);box-shadow:none" onclick="go(\'scan\')">'+I("scan",22)+'　スキャンして支払う</button></div></div>';
+ if(view=="scan")return'<div class="full scn"><video id="vd" class="vid" playsinline muted></video><div class="hd sm" style="background:none;position:relative"><button class="bk" onclick="go(\'home\')">'+I("back",24,2.5)+'</button><span class="ttl">スキャン</span><span style="width:40px"></span></div><div class="fr"><b></b><b></b><b></b><b></b><u></u></div><p id="cmsg" class="ctr" style="padding:0 20px 50px;font-size:14px;color:#fff;position:relative;text-shadow:0 1px 4px rgba(0,0,0,.4)">お店のQRコードを枠内に合わせてください</p></div>';
+ if(view=="confirm"){var p=pending;return'<div class="full" style="background:var(--bg)"><div class="hd sm"><button class="bk" onclick="go(\'home\')">'+I("back",24,2.5)+'</button><span class="ttl">支払い確認</span><span style="width:40px"></span></div><div class="cd up ctr"><div class="av" style="margin:0 auto 10px;width:56px;height:56px;color:var(--ac)">'+I("qr",28)+'</div><div class="lb" style="justify-content:center">'+(p.shop||S.shop)+'</div><div class="amt" style="margin-bottom:4px">'+yen(p.amt)+'</div><div class="lb" style="justify-content:center">獲得予定 '+Math.floor(p.amt*.005)+'P</div></div><div class="cd"><div class="rw"><div class="t">支払い方法</div><b>テイテイ残高</b></div><div class="rw"><div class="t">クーポン</div><span>'+cpLine(p)+'</span></div><div class="rw"><div class="t">お支払い金額</div><b>'+yen(p.amt-cpOff(p).off)+'</b></div><div class="rw"><div class="t">支払い後の残高</div><b>'+yen(S.bal-p.amt+cpOff(p).off)+'</b></div></div>'+cpChips(p)+'<div style="padding:0 14px"><button class="btn" onclick="pay()">'+yen(p.amt-cpOff(p).off)+'を支払う</button></div></div>'}
+ var h=hdr({cp:"クーポン",pts:"ポイント",inv:"運用",card:"カード",nt:"お知らせ",fr:"友だち",mini:"ミニアプリ",split:"割り勘",omi:"おみくじ",kake:"家計簿",set:"設定",scratch:"スクラッチ",charge:"チャージ",send:"送る",recv:"受け取る",hist:"取引履歴"}[view]);
+ if(view=="home")return h+'<div class="cd up"><div class="top2"><div><div class="lb">'+S.name+' さんの残高 <button class="eye" onclick="hide=!hide;render()">'+I(hide?"eyeoff":"eye",18)+'</button></div><div class="bal">'+(hide?"¥ ＊＊＊＊＊":yen(S.bal))+'</div></div><button class="cbtn" onclick="go(\'charge\')">チャージ</button></div><div class="pts"><span class="pill" style="background:#fff4c2;color:#6b5400"><i></i>'+S.pts+' P</span><span class="lb">ポイント残高</span></div></div>'+acts([["scan","scan","スキャン"],["send","send","送る"],["recv","down","受け取る"],["hist","list","履歴"]])+'<div class="bn" style="background:linear-gradient(120deg,#ffb300,#ff6a3d)"><div>ポイントスクラッチ<small>毎日1回、最大100Pが当たる</small></div><b style="color:#ff5a1f" onclick="go(\'scratch\')">削る</b></div><div class="bn"><div>はじめてのお買い物で<br>最大0.5%還元<small>テイテイ加盟店でQR支払い</small></div><b onclick="go(\'scan\')">使ってみる</b></div><div class="cd"><h3>サービス</h3><div class="sv">'+[["gift","クーポン","cp"],["tag","ポイント","pts"],["chart","運用","inv"],["card","カード","card"],["bell","お知らせ","nt"],["user","友だち","fr"],["grid","ミニアプリ","mini"],["list","家計簿","kake"]].map(function(b){return'<button onclick="go(\''+b[2]+'\')"><div class="ib">'+I(b[0],22)+"</div>"+b[1]+(b[2]=="nt"&&unr()?'<i class="dt"></i>':"")+"</button>"}).join("")+'</div></div><div class="cd"><h3>最近の取引</h3>'+rows(S.hist,"hist")+"</div>";
+ if(view=="set")return setv(h);
+ var sv2=svc(h);if(sv2)return sv2;
+ if(view=="scratch"){var dn=S.scr==new Date().toDateString();return h+'<div class="cd up ctr"><span class="bd">毎日1回 ポイントスクラッチ</span><p class="lb" style="justify-content:center;margin:10px 0 14px">'+(dn?"今日のスクラッチは完了しました":"銀色の部分を指でこすってください")+'</p><div class="scw"><div class="prz"><small>獲得ポイント</small><b>'+(dn?S.scrp:prize)+'<span style="font-size:22px"> P</span></b></div>'+(dn?"":'<canvas id="cv" width="300" height="170"></canvas>')+'</div><div id="sm" class="lb" style="justify-content:center;margin-top:14px">'+(dn?"また明日チャレンジしてね":"当たりは最大100P")+'</div><button class="btn g" onclick="go(\'home\')">ホームに戻る</button></div>'}
+ if(view=="recv")return h+'<div class="cd up ctr"><span class="bd">受け取り用QR</span><p class="lb" style="justify-content:center;margin:10px 0">相手に読み取ってもらうと送金を受け取れます</p><div class="bx">'+qr("TEITEI-USER:"+S.id,220)+'</div><p style="font-weight:800;margin:12px 0 0">テイテイID: '+S.id+'</p></div>';
+ if(view=="charge")return h+'<div class="cd up"><div class="lb" style="justify-content:center">チャージ金額</div><div class="amt">'+yen(amt||0)+'</div><div class="chips">'+["銀行口座","ATM","カード"].map(function(m){return"<button class=\""+(meth==m?"sel":"")+"\" onclick=\"meth='"+m+"';render()\">"+m+"</button>"}).join("")+'</div><div class="chips">'+[1000,5000,10000].map(function(n){return"<button onclick=\"amt='"+n+"';render()\">"+yen(n)+"</button>"}).join("")+"</div>"+pad()+'<button class="btn" onclick="charge()">チャージする</button></div>';
+ if(view=="send")return h+'<div class="cd up"><div class="lb" style="margin-bottom:8px">送り先</div>'+(S.fr.length?'<div class="chips" style="flex-wrap:wrap">'+S.fr.map(function(f){return'<button onclick="to=\''+f.n+'\';render()">'+f.n+'</button>'}).join("")+'</div>':"")+'<input placeholder="相手の名前" value="'+to+'" oninput="to=this.value"><div class="amt">'+yen(amt||0)+"</div>"+pad()+'<button class="btn" onclick="send()">送る</button></div>';
+ return h+'<div class="cd up"><h3>すべての取引</h3><div class="chips">'+[["all","すべて"],["pay","支払い"],["oth","チャージ・送金"]].map(function(c){return'<button class="'+(flt==c[0]?"sel":"")+'" onclick="flt=\''+c[0]+'\';render()">'+c[1]+"</button>"}).join("")+'</div>'+rows(S.hist,"hist")+"</div>"}
+function shopv(){var h=hdr({set:"設定",bill:"請求",qr:"請求",hist:"売上履歴"}[view]);
+ if(view=="home")return h+'<div class="cd up"><div class="lb">'+S.shop+' ・ 本日の売上</div><div class="bal">'+yen(S.sales)+'</div><div class="pts"><span>取引件数</span><b>'+S.sh.length+' 件</b></div></div>'+acts([["bill","qr","請求QR"],["hist","list","売上履歴"]]).replace("repeat(4","repeat(2")+weekly()+'<div class="cd"><h3>最近の入金</h3>'+rows(S.sh,"sh")+"</div>";
+ if(view=="set")return setv(h);
+ if(view=="bill"||view=="qr"){if(pending)return h+'<div class="cd up ctr"><span class="bd">お客様のスキャン待ち</span><div style="margin:16px 0 10px"><div class="bx">'+qr("TEITEI:"+pending.amt+":"+pending.id+":"+encodeURIComponent(S.shop),230)+'</div></div><div class="amt" style="margin:0">'+yen(pending.amt)+'</div><p class="lb" style="justify-content:center">お客様モードの「支払う」から読み取れます</p><button class="btn g" onclick="pending=null;render()">請求を取り消す</button></div>';
+  return h+'<div class="cd up"><div class="lb" style="justify-content:center">請求金額</div><div class="amt">'+yen(amt||0)+"</div>"+pad()+'<button class="btn" onclick="mk()">請求QRを作成</button></div>'}
+ return h+'<div class="cd up"><h3>売上履歴</h3>'+rows(S.sh,"sh")+"</div>"}
+function weekly(){var v=[12000,8500,15200,9800,21000,17400],mx=Math.max(S.sales,22000),h="";var d=["月","火","水","木","金","土"];v.forEach(function(n,k){h+='<div style="height:'+Math.round(n/mx*100)+'%"><span>'+d[k]+"</span></div>"});h+='<div class="t" style="height:'+Math.max(6,Math.round(S.sales/mx*100))+'%"><span>今日</span></div>';return'<div class="cd" style="padding-bottom:36px"><h3>週間売上</h3><div class="wk">'+h+"</div></div>"}
+function render(){var a=document.getElementById("app");a.className=mode=="s"?"s":"";var k=mode+view;a.innerHTML='<div class="'+(k!=lk?"pg":"")+'">'+(mode=="c"?cust():shopv())+"</div>"+tabs();lk=k}
+function done(t,n,sub,after){snd();var d=document.createElement("div");d.className="full dn";d.innerHTML='<div class="ring"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="'+P.check+'"/></svg></div><h2 style="margin:22px 0 6px">'+t+'</h2><div style="font-size:44px;font-weight:800;letter-spacing:-1px">'+yen(n)+'</div><p style="opacity:.9;margin:8px 0 28px">'+sub+" ・ "+now()+'</p><button class="btn" id="ok">閉じる</button>';document.body.appendChild(d);d.querySelector("#ok").onclick=function(){d.remove();go("home")}}
+function found(){if(view!="scan")return;if(!pending){toast("読み取れるQRがありません");go("pay");return}view="confirm";render()}
+function mk(){var n=+amt;if(!n)return toast("金額を入力してください");pending={id:"T"+Date.now()+"-"+n,amt:n,shop:S.shop};amt="";render()}
+function pay(){var p=pending;if(!p)return;if(S.cardOn===false)return toast("支払いがロック中です。カード画面で解除してください");var o=cpOff(p),tot=p.amt-o.off;if(S.bal<tot)return toast("残高が不足しています。チャージしてください");
+ var pt=Math.floor(tot*.005)*(o.c&&o.c.k=="x"?2:1);S.bal-=tot;S.pts+=pt;if(o.c)o.c.used=true;useCp=0;if(!p.ext)S.sales+=tot;
+ S.hist.unshift({t:(p.shop||S.shop)+(o.off?"（クーポン−"+yen(o.off)+"）":""),i:"qr",d:-tot,ts:now()});if(!p.ext)S.sh.unshift({t:"QR決済の入金",i:"qr",d:tot,ts:now()});pending=null;nt("お支払い "+yen(tot)+" が完了しました（+"+pt+"P）");save();
+ done("支払いが完了しました",tot,"+"+pt+"P 獲得")}
+function charge(){var n=+amt;if(!n)return toast("金額を入力してください");S.bal+=n;S.hist.unshift({t:"チャージ（"+meth+"）",i:"plus",d:n,ts:now()});nt("チャージ "+yen(n)+" が完了しました");save();done("チャージが完了しました",n,"残高 "+yen(S.bal))}
+function send(){var n=+amt;if(!to.trim())return toast("送り先を入力してください");if(!n)return toast("金額を入力してください");if(S.bal<n)return toast("残高が不足しています");
+ S.bal-=n;S.hist.unshift({t:to.trim()+" さんへ送金",i:"user",d:-n,ts:now()});nt(to.trim()+" さんへ "+yen(n)+" を送金しました");save();var w=to.trim();to="";done("送金が完了しました",n,w+" さん宛")}
+render();setTimeout(function(){var e=document.getElementById("sp");e.className="o";setTimeout(function(){e.remove()},500)},1100);
+</script></body></html>
