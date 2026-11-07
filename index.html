@@ -11,10 +11,10 @@ button{font-family:inherit;cursor:pointer}
 #app.s{--ac:#0a6cff;--ac2:#4c97ff}
 .hd{background:linear-gradient(160deg,var(--ac),var(--ac2));color:#fff;padding:14px 16px 78px;display:flex;justify-content:space-between;align-items:center;min-height:130px;align-items:flex-start}
 .hd.sm{min-height:0;padding-bottom:64px;align-items:center}
-.logo{font-weight:900;font-size:24px;letter-spacing:.5px}
+.logo{font-weight:900;font-size:24px;letter-spacing:.5px;white-space:nowrap}
 .logo i{font-style:normal;font-size:11px;font-weight:700;background:rgba(255,255,255,.25);padding:2px 7px;border-radius:9px;margin-left:8px;vertical-align:middle}
 .seg{display:flex;background:rgba(0,0,0,.22);border-radius:22px;padding:3px}
-.seg button{border:0;background:none;color:#fff;padding:7px 16px;border-radius:19px;font-size:13px;font-weight:700}
+.seg button{border:0;background:none;color:#fff;white-space:nowrap;padding:7px 13px;border-radius:19px;font-size:13px;font-weight:700}
 .seg button.on{background:#fff;color:var(--ac)}
 .ttl{font-weight:800;font-size:16px}
 .bk{background:none;border:0;color:#fff;width:40px;height:32px;padding:0}
@@ -60,7 +60,7 @@ input:focus{border-color:var(--ac)}
 .fr b:nth-child(3){left:0;bottom:0;border-right:0;border-top:0}.fr b:nth-child(4){right:0;bottom:0;border-left:0;border-top:0}
 .fr u{position:absolute;left:8px;right:8px;height:3px;background:#fff;box-shadow:0 0 14px #fff;animation:ln 1.4s ease-in-out infinite alternate}
 @keyframes ln{from{top:8px}to{top:226px}}
-.dn{background:linear-gradient(170deg,var(--ac),var(--ac2));color:#fff;align-items:center;justify-content:center;text-align:center;padding:24px}
+.dn{background:linear-gradient(170deg,var(--ac),var(--ac2));color:#fff;align-items:center;justify-content:center;text-align:center;padding:24px;overflow-y:auto}
 .ring{width:110px;height:110px;border-radius:50%;background:#fff;color:var(--ac);display:flex;align-items:center;justify-content:center;animation:pop .6s cubic-bezier(.2,1.4,.4,1);box-shadow:0 0 0 0 rgba(255,255,255,.6)}
 .ring svg path{stroke-dasharray:30;stroke-dashoffset:30;animation:dr .5s .35s forwards}
 @keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}@keyframes dr{to{stroke-dashoffset:0}}
@@ -100,1223 +100,32 @@ input:focus{border-color:var(--ac)}
 .sw{display:flex;justify-content:space-between;align-items:center;padding:6px 0}
 .cardf{border-radius:18px;padding:20px;color:#fff;background:linear-gradient(135deg,#ff0033,#ff7a45 70%,#ffb300);height:190px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 8px 20px rgba(255,0,51,.3)}
 .dt{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ac);margin-left:4px}
-</style><script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script><script>(function(){var M={},C={};function R(n){n=n.replace('./','');if(C[n])return C[n].exports;var m=C[n]={exports:{}};M[n](m,m.exports,function(x){return R(x)});return m.exports}
-M['QRMode']=function(module,exports,require){module.exports = {
-    MODE_NUMBER :       1 << 0,
-    MODE_ALPHA_NUM :    1 << 1,
-    MODE_8BIT_BYTE :    1 << 2,
-    MODE_KANJI :        1 << 3
-};
-
-};
-M['QRErrorCorrectLevel']=function(module,exports,require){module.exports = {
-	L : 1,
-	M : 0,
-	Q : 3,
-	H : 2
-};
-
-
-};
-M['QRMaskPattern']=function(module,exports,require){module.exports = {
-	PATTERN000 : 0,
-	PATTERN001 : 1,
-	PATTERN010 : 2,
-	PATTERN011 : 3,
-	PATTERN100 : 4,
-	PATTERN101 : 5,
-	PATTERN110 : 6,
-	PATTERN111 : 7
-};
-
-};
-M['QRMath']=function(module,exports,require){var QRMath = {
-
-	glog : function(n) {
-	
-		if (n < 1) {
-			throw new Error("glog(" + n + ")");
-		}
-		
-		return QRMath.LOG_TABLE[n];
-	},
-	
-	gexp : function(n) {
-	
-		while (n < 0) {
-			n += 255;
-		}
-	
-		while (n >= 256) {
-			n -= 255;
-		}
-	
-		return QRMath.EXP_TABLE[n];
-	},
-	
-	EXP_TABLE : new Array(256),
-	
-	LOG_TABLE : new Array(256)
-
-};
-	
-for (var i = 0; i < 8; i++) {
-	QRMath.EXP_TABLE[i] = 1 << i;
-}
-for (var i = 8; i < 256; i++) {
-	QRMath.EXP_TABLE[i] = QRMath.EXP_TABLE[i - 4]
-		^ QRMath.EXP_TABLE[i - 5]
-		^ QRMath.EXP_TABLE[i - 6]
-		^ QRMath.EXP_TABLE[i - 8];
-}
-for (var i = 0; i < 255; i++) {
-	QRMath.LOG_TABLE[QRMath.EXP_TABLE[i] ] = i;
-}
-
-module.exports = QRMath;
-
-};
-M['QRPolynomial']=function(module,exports,require){var QRMath = require('./QRMath');
-
-function QRPolynomial(num, shift) {
-	if (num.length === undefined) {
-		throw new Error(num.length + "/" + shift);
-	}
-
-	var offset = 0;
-
-	while (offset < num.length && num[offset] === 0) {
-		offset++;
-	}
-
-	this.num = new Array(num.length - offset + shift);
-	for (var i = 0; i < num.length - offset; i++) {
-		this.num[i] = num[i + offset];
-	}
-}
-
-QRPolynomial.prototype = {
-
-	get : function(index) {
-		return this.num[index];
-	},
-	
-	getLength : function() {
-		return this.num.length;
-	},
-	
-	multiply : function(e) {
-	
-		var num = new Array(this.getLength() + e.getLength() - 1);
-	
-		for (var i = 0; i < this.getLength(); i++) {
-			for (var j = 0; j < e.getLength(); j++) {
-				num[i + j] ^= QRMath.gexp(QRMath.glog(this.get(i) ) + QRMath.glog(e.get(j) ) );
-			}
-		}
-	
-		return new QRPolynomial(num, 0);
-	},
-	
-	mod : function(e) {
-	
-		if (this.getLength() - e.getLength() < 0) {
-			return this;
-		}
-	
-		var ratio = QRMath.glog(this.get(0) ) - QRMath.glog(e.get(0) );
-	
-		var num = new Array(this.getLength() );
-		
-		for (var i = 0; i < this.getLength(); i++) {
-			num[i] = this.get(i);
-		}
-		
-		for (var x = 0; x < e.getLength(); x++) {
-			num[x] ^= QRMath.gexp(QRMath.glog(e.get(x) ) + ratio);
-		}
-
-		return new QRPolynomial(num, 0).mod(e);
-	}
-};
-
-module.exports = QRPolynomial;
-
-};
-M['QRRSBlock']=function(module,exports,require){var QRErrorCorrectLevel = require('./QRErrorCorrectLevel');
-
-function QRRSBlock(totalCount, dataCount) {
-	this.totalCount = totalCount;
-	this.dataCount  = dataCount;
-}
-
-QRRSBlock.RS_BLOCK_TABLE = [
-
-
-
-
-
-	[1, 26, 19],
-	[1, 26, 16],
-	[1, 26, 13],
-	[1, 26, 9],
-
-	[1, 44, 34],
-	[1, 44, 28],
-	[1, 44, 22],
-	[1, 44, 16],
-
-	[1, 70, 55],
-	[1, 70, 44],
-	[2, 35, 17],
-	[2, 35, 13],
-
-	[1, 100, 80],
-	[2, 50, 32],
-	[2, 50, 24],
-	[4, 25, 9],
-
-	[1, 134, 108],
-	[2, 67, 43],
-	[2, 33, 15, 2, 34, 16],
-	[2, 33, 11, 2, 34, 12],
-
-	[2, 86, 68],
-	[4, 43, 27],
-	[4, 43, 19],
-	[4, 43, 15],
-
-	[2, 98, 78],
-	[4, 49, 31],
-	[2, 32, 14, 4, 33, 15],
-	[4, 39, 13, 1, 40, 14],
-
-	[2, 121, 97],
-	[2, 60, 38, 2, 61, 39],
-	[4, 40, 18, 2, 41, 19],
-	[4, 40, 14, 2, 41, 15],
-
-	[2, 146, 116],
-	[3, 58, 36, 2, 59, 37],
-	[4, 36, 16, 4, 37, 17],
-	[4, 36, 12, 4, 37, 13],
-
-	[2, 86, 68, 2, 87, 69],
-	[4, 69, 43, 1, 70, 44],
-	[6, 43, 19, 2, 44, 20],
-	[6, 43, 15, 2, 44, 16],
-
-	[4, 101, 81],
-	[1, 80, 50, 4, 81, 51],
-	[4, 50, 22, 4, 51, 23],
-	[3, 36, 12, 8, 37, 13],
-
-	[2, 116, 92, 2, 117, 93],
-	[6, 58, 36, 2, 59, 37],
-	[4, 46, 20, 6, 47, 21],
-	[7, 42, 14, 4, 43, 15],
-
-	[4, 133, 107],
-	[8, 59, 37, 1, 60, 38],
-	[8, 44, 20, 4, 45, 21],
-	[12, 33, 11, 4, 34, 12],
-
-	[3, 145, 115, 1, 146, 116],
-	[4, 64, 40, 5, 65, 41],
-	[11, 36, 16, 5, 37, 17],
-	[11, 36, 12, 5, 37, 13],
-
-	[5, 109, 87, 1, 110, 88],
-	[5, 65, 41, 5, 66, 42],
-	[5, 54, 24, 7, 55, 25],
-	[11, 36, 12],
-
-	[5, 122, 98, 1, 123, 99],
-	[7, 73, 45, 3, 74, 46],
-	[15, 43, 19, 2, 44, 20],
-	[3, 45, 15, 13, 46, 16],
-
-	[1, 135, 107, 5, 136, 108],
-	[10, 74, 46, 1, 75, 47],
-	[1, 50, 22, 15, 51, 23],
-	[2, 42, 14, 17, 43, 15],
-
-	[5, 150, 120, 1, 151, 121],
-	[9, 69, 43, 4, 70, 44],
-	[17, 50, 22, 1, 51, 23],
-	[2, 42, 14, 19, 43, 15],
-
-	[3, 141, 113, 4, 142, 114],
-	[3, 70, 44, 11, 71, 45],
-	[17, 47, 21, 4, 48, 22],
-	[9, 39, 13, 16, 40, 14],
-
-	[3, 135, 107, 5, 136, 108],
-	[3, 67, 41, 13, 68, 42],
-	[15, 54, 24, 5, 55, 25],
-	[15, 43, 15, 10, 44, 16],
-
-	[4, 144, 116, 4, 145, 117],
-	[17, 68, 42],
-	[17, 50, 22, 6, 51, 23],
-	[19, 46, 16, 6, 47, 17],
-
-	[2, 139, 111, 7, 140, 112],
-	[17, 74, 46],
-	[7, 54, 24, 16, 55, 25],
-	[34, 37, 13],
-
-	[4, 151, 121, 5, 152, 122],
-	[4, 75, 47, 14, 76, 48],
-	[11, 54, 24, 14, 55, 25],
-	[16, 45, 15, 14, 46, 16],
-
-	[6, 147, 117, 4, 148, 118],
-	[6, 73, 45, 14, 74, 46],
-	[11, 54, 24, 16, 55, 25],
-	[30, 46, 16, 2, 47, 17],
-
-	[8, 132, 106, 4, 133, 107],
-	[8, 75, 47, 13, 76, 48],
-	[7, 54, 24, 22, 55, 25],
-	[22, 45, 15, 13, 46, 16],
-
-	[10, 142, 114, 2, 143, 115],
-	[19, 74, 46, 4, 75, 47],
-	[28, 50, 22, 6, 51, 23],
-	[33, 46, 16, 4, 47, 17],
-
-	[8, 152, 122, 4, 153, 123],
-	[22, 73, 45, 3, 74, 46],
-	[8, 53, 23, 26, 54, 24],
-	[12, 45, 15, 28, 46, 16],
-
-	[3, 147, 117, 10, 148, 118],
-	[3, 73, 45, 23, 74, 46],
-	[4, 54, 24, 31, 55, 25],
-	[11, 45, 15, 31, 46, 16],
-
-	[7, 146, 116, 7, 147, 117],
-	[21, 73, 45, 7, 74, 46],
-	[1, 53, 23, 37, 54, 24],
-	[19, 45, 15, 26, 46, 16],
-
-	[5, 145, 115, 10, 146, 116],
-	[19, 75, 47, 10, 76, 48],
-	[15, 54, 24, 25, 55, 25],
-	[23, 45, 15, 25, 46, 16],
-
-	[13, 145, 115, 3, 146, 116],
-	[2, 74, 46, 29, 75, 47],
-	[42, 54, 24, 1, 55, 25],
-	[23, 45, 15, 28, 46, 16],
-
-	[17, 145, 115],
-	[10, 74, 46, 23, 75, 47],
-	[10, 54, 24, 35, 55, 25],
-	[19, 45, 15, 35, 46, 16],
-
-	[17, 145, 115, 1, 146, 116],
-	[14, 74, 46, 21, 75, 47],
-	[29, 54, 24, 19, 55, 25],
-	[11, 45, 15, 46, 46, 16],
-
-	[13, 145, 115, 6, 146, 116],
-	[14, 74, 46, 23, 75, 47],
-	[44, 54, 24, 7, 55, 25],
-	[59, 46, 16, 1, 47, 17],
-
-	[12, 151, 121, 7, 152, 122],
-	[12, 75, 47, 26, 76, 48],
-	[39, 54, 24, 14, 55, 25],
-	[22, 45, 15, 41, 46, 16],
-
-	[6, 151, 121, 14, 152, 122],
-	[6, 75, 47, 34, 76, 48],
-	[46, 54, 24, 10, 55, 25],
-	[2, 45, 15, 64, 46, 16],
-
-	[17, 152, 122, 4, 153, 123],
-	[29, 74, 46, 14, 75, 47],
-	[49, 54, 24, 10, 55, 25],
-	[24, 45, 15, 46, 46, 16],
-
-	[4, 152, 122, 18, 153, 123],
-	[13, 74, 46, 32, 75, 47],
-	[48, 54, 24, 14, 55, 25],
-	[42, 45, 15, 32, 46, 16],
-
-	[20, 147, 117, 4, 148, 118],
-	[40, 75, 47, 7, 76, 48],
-	[43, 54, 24, 22, 55, 25],
-	[10, 45, 15, 67, 46, 16],
-
-	[19, 148, 118, 6, 149, 119],
-	[18, 75, 47, 31, 76, 48],
-	[34, 54, 24, 34, 55, 25],
-	[20, 45, 15, 61, 46, 16]
-];
-
-QRRSBlock.getRSBlocks = function(typeNumber, errorCorrectLevel) {
-	
-	var rsBlock = QRRSBlock.getRsBlockTable(typeNumber, errorCorrectLevel);
-	
-	if (rsBlock === undefined) {
-		throw new Error("bad rs block @ typeNumber:" + typeNumber + "/errorCorrectLevel:" + errorCorrectLevel);
-	}
-
-	var length = rsBlock.length / 3;
-	
-	var list = [];
-	
-	for (var i = 0; i < length; i++) {
-
-		var count = rsBlock[i * 3 + 0];
-		var totalCount = rsBlock[i * 3 + 1];
-		var dataCount  = rsBlock[i * 3 + 2];
-
-		for (var j = 0; j < count; j++) {
-			list.push(new QRRSBlock(totalCount, dataCount) );	
-		}
-	}
-	
-	return list;
-};
-
-QRRSBlock.getRsBlockTable = function(typeNumber, errorCorrectLevel) {
-
-	switch(errorCorrectLevel) {
-	case QRErrorCorrectLevel.L :
-		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 0];
-	case QRErrorCorrectLevel.M :
-		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 1];
-	case QRErrorCorrectLevel.Q :
-		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 2];
-	case QRErrorCorrectLevel.H :
-		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 3];
-	default :
-		return undefined;
-	}
-};
-
-module.exports = QRRSBlock;
-
-};
-M['QRBitBuffer']=function(module,exports,require){function QRBitBuffer() {
-	this.buffer = [];
-	this.length = 0;
-}
-
-QRBitBuffer.prototype = {
-
-	get : function(index) {
-		var bufIndex = Math.floor(index / 8);
-		return ( (this.buffer[bufIndex] >>> (7 - index % 8) ) & 1) == 1;
-	},
-	
-	put : function(num, length) {
-		for (var i = 0; i < length; i++) {
-			this.putBit( ( (num >>> (length - i - 1) ) & 1) == 1);
-		}
-	},
-	
-	getLengthInBits : function() {
-		return this.length;
-	},
-	
-	putBit : function(bit) {
-	
-		var bufIndex = Math.floor(this.length / 8);
-		if (this.buffer.length <= bufIndex) {
-			this.buffer.push(0);
-		}
-	
-		if (bit) {
-			this.buffer[bufIndex] |= (0x80 >>> (this.length % 8) );
-		}
-	
-		this.length++;
-	}
-};
-
-module.exports = QRBitBuffer;
-
-};
-M['QR8bitByte']=function(module,exports,require){var QRMode = require('./QRMode');
-
-function QR8bitByte(data) {
-	this.mode = QRMode.MODE_8BIT_BYTE;
-	this.data = data;
-}
-
-QR8bitByte.prototype = {
-
-	getLength : function() {
-		return this.data.length;
-	},
-	
-	write : function(buffer) {
-		for (var i = 0; i < this.data.length; i++) {
-
-			buffer.put(this.data.charCodeAt(i), 8);
-		}
-	}
-};
-
-module.exports = QR8bitByte;
-
-};
-M['QRUtil']=function(module,exports,require){var QRMode = require('./QRMode');
-var QRPolynomial = require('./QRPolynomial');
-var QRMath = require('./QRMath');
-var QRMaskPattern = require('./QRMaskPattern');
-
-var QRUtil = {
-
-    PATTERN_POSITION_TABLE : [
-        [],
-        [6, 18],
-        [6, 22],
-        [6, 26],
-        [6, 30],
-        [6, 34],
-        [6, 22, 38],
-        [6, 24, 42],
-        [6, 26, 46],
-        [6, 28, 50],
-        [6, 30, 54],        
-        [6, 32, 58],
-        [6, 34, 62],
-        [6, 26, 46, 66],
-        [6, 26, 48, 70],
-        [6, 26, 50, 74],
-        [6, 30, 54, 78],
-        [6, 30, 56, 82],
-        [6, 30, 58, 86],
-        [6, 34, 62, 90],
-        [6, 28, 50, 72, 94],
-        [6, 26, 50, 74, 98],
-        [6, 30, 54, 78, 102],
-        [6, 28, 54, 80, 106],
-        [6, 32, 58, 84, 110],
-        [6, 30, 58, 86, 114],
-        [6, 34, 62, 90, 118],
-        [6, 26, 50, 74, 98, 122],
-        [6, 30, 54, 78, 102, 126],
-        [6, 26, 52, 78, 104, 130],
-        [6, 30, 56, 82, 108, 134],
-        [6, 34, 60, 86, 112, 138],
-        [6, 30, 58, 86, 114, 142],
-        [6, 34, 62, 90, 118, 146],
-        [6, 30, 54, 78, 102, 126, 150],
-        [6, 24, 50, 76, 102, 128, 154],
-        [6, 28, 54, 80, 106, 132, 158],
-        [6, 32, 58, 84, 110, 136, 162],
-        [6, 26, 54, 82, 110, 138, 166],
-        [6, 30, 58, 86, 114, 142, 170]
-    ],
-
-    G15 : (1 << 10) | (1 << 8) | (1 << 5) | (1 << 4) | (1 << 2) | (1 << 1) | (1 << 0),
-    G18 : (1 << 12) | (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 5) | (1 << 2) | (1 << 0),
-    G15_MASK : (1 << 14) | (1 << 12) | (1 << 10)    | (1 << 4) | (1 << 1),
-
-    getBCHTypeInfo : function(data) {
-        var d = data << 10;
-        while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) >= 0) {
-            d ^= (QRUtil.G15 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) ) );    
-        }
-        return ( (data << 10) | d) ^ QRUtil.G15_MASK;
-    },
-
-    getBCHTypeNumber : function(data) {
-        var d = data << 12;
-        while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) >= 0) {
-            d ^= (QRUtil.G18 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) ) );    
-        }
-        return (data << 12) | d;
-    },
-
-    getBCHDigit : function(data) {
-
-        var digit = 0;
-
-        while (data !== 0) {
-            digit++;
-            data >>>= 1;
-        }
-
-        return digit;
-    },
-
-    getPatternPosition : function(typeNumber) {
-        return QRUtil.PATTERN_POSITION_TABLE[typeNumber - 1];
-    },
-
-    getMask : function(maskPattern, i, j) {
-        
-        switch (maskPattern) {
-            
-        case QRMaskPattern.PATTERN000 : return (i + j) % 2 === 0;
-        case QRMaskPattern.PATTERN001 : return i % 2 === 0;
-        case QRMaskPattern.PATTERN010 : return j % 3 === 0;
-        case QRMaskPattern.PATTERN011 : return (i + j) % 3 === 0;
-        case QRMaskPattern.PATTERN100 : return (Math.floor(i / 2) + Math.floor(j / 3) ) % 2 === 0;
-        case QRMaskPattern.PATTERN101 : return (i * j) % 2 + (i * j) % 3 === 0;
-        case QRMaskPattern.PATTERN110 : return ( (i * j) % 2 + (i * j) % 3) % 2 === 0;
-        case QRMaskPattern.PATTERN111 : return ( (i * j) % 3 + (i + j) % 2) % 2 === 0;
-
-        default :
-            throw new Error("bad maskPattern:" + maskPattern);
-        }
-    },
-
-    getErrorCorrectPolynomial : function(errorCorrectLength) {
-
-        var a = new QRPolynomial([1], 0);
-
-        for (var i = 0; i < errorCorrectLength; i++) {
-            a = a.multiply(new QRPolynomial([1, QRMath.gexp(i)], 0) );
-        }
-
-        return a;
-    },
-
-    getLengthInBits : function(mode, type) {
-
-        if (1 <= type && type < 10) {
-
-
-            switch(mode) {
-            case QRMode.MODE_NUMBER     : return 10;
-            case QRMode.MODE_ALPHA_NUM  : return 9;
-            case QRMode.MODE_8BIT_BYTE  : return 8;
-            case QRMode.MODE_KANJI      : return 8;
-            default :
-                throw new Error("mode:" + mode);
-            }
-
-        } else if (type < 27) {
-
-
-            switch(mode) {
-            case QRMode.MODE_NUMBER     : return 12;
-            case QRMode.MODE_ALPHA_NUM  : return 11;
-            case QRMode.MODE_8BIT_BYTE  : return 16;
-            case QRMode.MODE_KANJI      : return 10;
-            default :
-                throw new Error("mode:" + mode);
-            }
-
-        } else if (type < 41) {
-
-
-            switch(mode) {
-            case QRMode.MODE_NUMBER     : return 14;
-            case QRMode.MODE_ALPHA_NUM  : return 13;
-            case QRMode.MODE_8BIT_BYTE  : return 16;
-            case QRMode.MODE_KANJI      : return 12;
-            default :
-                throw new Error("mode:" + mode);
-            }
-
-        } else {
-            throw new Error("type:" + type);
-        }
-    },
-
-    getLostPoint : function(qrCode) {
-        
-        var moduleCount = qrCode.getModuleCount();
-        var lostPoint = 0;
-        var row = 0; 
-        var col = 0;
-
-        
-        for (row = 0; row < moduleCount; row++) {
-
-            for (col = 0; col < moduleCount; col++) {
-
-                var sameCount = 0;
-                var dark = qrCode.isDark(row, col);
-
-                for (var r = -1; r <= 1; r++) {
-
-                    if (row + r < 0 || moduleCount <= row + r) {
-                        continue;
-                    }
-
-                    for (var c = -1; c <= 1; c++) {
-
-                        if (col + c < 0 || moduleCount <= col + c) {
-                            continue;
-                        }
-
-                        if (r === 0 && c === 0) {
-                            continue;
-                        }
-
-                        if (dark === qrCode.isDark(row + r, col + c) ) {
-                            sameCount++;
-                        }
-                    }
-                }
-
-                if (sameCount > 5) {
-                    lostPoint += (3 + sameCount - 5);
-                }
-            }
-        }
-
-
-        for (row = 0; row < moduleCount - 1; row++) {
-            for (col = 0; col < moduleCount - 1; col++) {
-                var count = 0;
-                if (qrCode.isDark(row,     col    ) ) count++;
-                if (qrCode.isDark(row + 1, col    ) ) count++;
-                if (qrCode.isDark(row,     col + 1) ) count++;
-                if (qrCode.isDark(row + 1, col + 1) ) count++;
-                if (count === 0 || count === 4) {
-                    lostPoint += 3;
-                }
-            }
-        }
-
-
-        for (row = 0; row < moduleCount; row++) {
-            for (col = 0; col < moduleCount - 6; col++) {
-                if (qrCode.isDark(row, col) && 
-                        !qrCode.isDark(row, col + 1) && 
-                         qrCode.isDark(row, col + 2) && 
-                         qrCode.isDark(row, col + 3) && 
-                         qrCode.isDark(row, col + 4) && 
-                        !qrCode.isDark(row, col + 5) && 
-                         qrCode.isDark(row, col + 6) ) {
-                    lostPoint += 40;
-                }
-            }
-        }
-
-        for (col = 0; col < moduleCount; col++) {
-            for (row = 0; row < moduleCount - 6; row++) {
-                if (qrCode.isDark(row, col) &&
-                        !qrCode.isDark(row + 1, col) &&
-                         qrCode.isDark(row + 2, col) &&
-                         qrCode.isDark(row + 3, col) &&
-                         qrCode.isDark(row + 4, col) &&
-                        !qrCode.isDark(row + 5, col) &&
-                         qrCode.isDark(row + 6, col) ) {
-                    lostPoint += 40;
-                }
-            }
-        }
-
-        
-        var darkCount = 0;
-
-        for (col = 0; col < moduleCount; col++) {
-            for (row = 0; row < moduleCount; row++) {
-                if (qrCode.isDark(row, col) ) {
-                    darkCount++;
-                }
-            }
-        }
-        
-        var ratio = Math.abs(100 * darkCount / moduleCount / moduleCount - 50) / 5;
-        lostPoint += ratio * 10;
-
-        return lostPoint;       
-    }
-
-};
-
-module.exports = QRUtil;
-
-};
-M['index']=function(module,exports,require){
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var QR8bitByte = require('./QR8bitByte');
-var QRUtil = require('./QRUtil');
-var QRPolynomial = require('./QRPolynomial');
-var QRRSBlock = require('./QRRSBlock');
-var QRBitBuffer = require('./QRBitBuffer');
-
-function QRCode(typeNumber, errorCorrectLevel) {
-	this.typeNumber = typeNumber;
-	this.errorCorrectLevel = errorCorrectLevel;
-	this.modules = null;
-	this.moduleCount = 0;
-	this.dataCache = null;
-	this.dataList = [];
-}
-
-QRCode.prototype = {
-	
-	addData : function(data) {
-		var newData = new QR8bitByte(data);
-		this.dataList.push(newData);
-		this.dataCache = null;
-	},
-	
-	isDark : function(row, col) {
-		if (row < 0 || this.moduleCount <= row || col < 0 || this.moduleCount <= col) {
-			throw new Error(row + "," + col);
-		}
-		return this.modules[row][col];
-	},
-
-	getModuleCount : function() {
-		return this.moduleCount;
-	},
-	
-	make : function() {
-
-		if (this.typeNumber < 1 ){
-			var typeNumber = 1;
-			for (typeNumber = 1; typeNumber < 40; typeNumber++) {
-				var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, this.errorCorrectLevel);
-
-				var buffer = new QRBitBuffer();
-				var totalDataCount = 0;
-				for (var i = 0; i < rsBlocks.length; i++) {
-					totalDataCount += rsBlocks[i].dataCount;
-				}
-
-				for (var x = 0; x < this.dataList.length; x++) {
-					var data = this.dataList[x];
-					buffer.put(data.mode, 4);
-					buffer.put(data.getLength(), QRUtil.getLengthInBits(data.mode, typeNumber) );
-					data.write(buffer);
-				}
-				if (buffer.getLengthInBits() <= totalDataCount * 8)
-					break;
-			}
-			this.typeNumber = typeNumber;
-		}
-		this.makeImpl(false, this.getBestMaskPattern() );
-	},
-	
-	makeImpl : function(test, maskPattern) {
-		
-		this.moduleCount = this.typeNumber * 4 + 17;
-		this.modules = new Array(this.moduleCount);
-		
-		for (var row = 0; row < this.moduleCount; row++) {
-			
-			this.modules[row] = new Array(this.moduleCount);
-			
-			for (var col = 0; col < this.moduleCount; col++) {
-				this.modules[row][col] = null;//(col + row) % 3;
-			}
-		}
-	
-		this.setupPositionProbePattern(0, 0);
-		this.setupPositionProbePattern(this.moduleCount - 7, 0);
-		this.setupPositionProbePattern(0, this.moduleCount - 7);
-		this.setupPositionAdjustPattern();
-		this.setupTimingPattern();
-		this.setupTypeInfo(test, maskPattern);
-		
-		if (this.typeNumber >= 7) {
-			this.setupTypeNumber(test);
-		}
-	
-		if (this.dataCache === null) {
-			this.dataCache = QRCode.createData(this.typeNumber, this.errorCorrectLevel, this.dataList);
-		}
-	
-		this.mapData(this.dataCache, maskPattern);
-	},
-
-	setupPositionProbePattern : function(row, col)  {
-		
-		for (var r = -1; r <= 7; r++) {
-			
-			if (row + r <= -1 || this.moduleCount <= row + r) continue;
-			
-			for (var c = -1; c <= 7; c++) {
-				
-				if (col + c <= -1 || this.moduleCount <= col + c) continue;
-				
-				if ( (0 <= r && r <= 6 && (c === 0 || c === 6) ) || 
-                     (0 <= c && c <= 6 && (r === 0 || r === 6) ) || 
-                     (2 <= r && r <= 4 && 2 <= c && c <= 4) ) {
-					this.modules[row + r][col + c] = true;
-				} else {
-					this.modules[row + r][col + c] = false;
-				}
-			}		
-		}		
-	},
-	
-	getBestMaskPattern : function() {
-	
-		var minLostPoint = 0;
-		var pattern = 0;
-	
-		for (var i = 0; i < 8; i++) {
-			
-			this.makeImpl(true, i);
-	
-			var lostPoint = QRUtil.getLostPoint(this);
-	
-			if (i === 0 || minLostPoint >  lostPoint) {
-				minLostPoint = lostPoint;
-				pattern = i;
-			}
-		}
-	
-		return pattern;
-	},
-	
-	createMovieClip : function(target_mc, instance_name, depth) {
-	
-		var qr_mc = target_mc.createEmptyMovieClip(instance_name, depth);
-		var cs = 1;
-	
-		this.make();
-
-		for (var row = 0; row < this.modules.length; row++) {
-			
-			var y = row * cs;
-			
-			for (var col = 0; col < this.modules[row].length; col++) {
-	
-				var x = col * cs;
-				var dark = this.modules[row][col];
-			
-				if (dark) {
-					qr_mc.beginFill(0, 100);
-					qr_mc.moveTo(x, y);
-					qr_mc.lineTo(x + cs, y);
-					qr_mc.lineTo(x + cs, y + cs);
-					qr_mc.lineTo(x, y + cs);
-					qr_mc.endFill();
-				}
-			}
-		}
-		
-		return qr_mc;
-	},
-
-	setupTimingPattern : function() {
-		
-		for (var r = 8; r < this.moduleCount - 8; r++) {
-			if (this.modules[r][6] !== null) {
-				continue;
-			}
-			this.modules[r][6] = (r % 2 === 0);
-		}
-	
-		for (var c = 8; c < this.moduleCount - 8; c++) {
-			if (this.modules[6][c] !== null) {
-				continue;
-			}
-			this.modules[6][c] = (c % 2 === 0);
-		}
-	},
-	
-	setupPositionAdjustPattern : function() {
-	
-		var pos = QRUtil.getPatternPosition(this.typeNumber);
-		
-		for (var i = 0; i < pos.length; i++) {
-		
-			for (var j = 0; j < pos.length; j++) {
-			
-				var row = pos[i];
-				var col = pos[j];
-				
-				if (this.modules[row][col] !== null) {
-					continue;
-				}
-				
-				for (var r = -2; r <= 2; r++) {
-				
-					for (var c = -2; c <= 2; c++) {
-					
-						if (Math.abs(r) === 2 || 
-                            Math.abs(c) === 2 ||
-                            (r === 0 && c === 0) ) {
-							this.modules[row + r][col + c] = true;
-						} else {
-							this.modules[row + r][col + c] = false;
-						}
-					}
-				}
-			}
-		}
-	},
-	
-	setupTypeNumber : function(test) {
-	
-		var bits = QRUtil.getBCHTypeNumber(this.typeNumber);
-        var mod;
-	
-		for (var i = 0; i < 18; i++) {
-			mod = (!test && ( (bits >> i) & 1) === 1);
-			this.modules[Math.floor(i / 3)][i % 3 + this.moduleCount - 8 - 3] = mod;
-		}
-	
-		for (var x = 0; x < 18; x++) {
-			mod = (!test && ( (bits >> x) & 1) === 1);
-			this.modules[x % 3 + this.moduleCount - 8 - 3][Math.floor(x / 3)] = mod;
-		}
-	},
-	
-	setupTypeInfo : function(test, maskPattern) {
-	
-		var data = (this.errorCorrectLevel << 3) | maskPattern;
-		var bits = QRUtil.getBCHTypeInfo(data);
-        var mod;
-
-		for (var v = 0; v < 15; v++) {
-	
-			mod = (!test && ( (bits >> v) & 1) === 1);
-	
-			if (v < 6) {
-				this.modules[v][8] = mod;
-			} else if (v < 8) {
-				this.modules[v + 1][8] = mod;
-			} else {
-				this.modules[this.moduleCount - 15 + v][8] = mod;
-			}
-		}
-
-		for (var h = 0; h < 15; h++) {
-	
-			mod = (!test && ( (bits >> h) & 1) === 1);
-			
-			if (h < 8) {
-				this.modules[8][this.moduleCount - h - 1] = mod;
-			} else if (h < 9) {
-				this.modules[8][15 - h - 1 + 1] = mod;
-			} else {
-				this.modules[8][15 - h - 1] = mod;
-			}
-		}
-
-		this.modules[this.moduleCount - 8][8] = (!test);
-	
-	},
-	
-	mapData : function(data, maskPattern) {
-		
-		var inc = -1;
-		var row = this.moduleCount - 1;
-		var bitIndex = 7;
-		var byteIndex = 0;
-		
-		for (var col = this.moduleCount - 1; col > 0; col -= 2) {
-	
-			if (col === 6) col--;
-	
-			while (true) {
-	
-				for (var c = 0; c < 2; c++) {
-					
-					if (this.modules[row][col - c] === null) {
-						
-						var dark = false;
-	
-						if (byteIndex < data.length) {
-							dark = ( ( (data[byteIndex] >>> bitIndex) & 1) === 1);
-						}
-	
-						var mask = QRUtil.getMask(maskPattern, row, col - c);
-	
-						if (mask) {
-							dark = !dark;
-						}
-						
-						this.modules[row][col - c] = dark;
-						bitIndex--;
-	
-						if (bitIndex === -1) {
-							byteIndex++;
-							bitIndex = 7;
-						}
-					}
-				}
-								
-				row += inc;
-	
-				if (row < 0 || this.moduleCount <= row) {
-					row -= inc;
-					inc = -inc;
-					break;
-				}
-			}
-		}
-		
-	}
-
-};
-
-QRCode.PAD0 = 0xEC;
-QRCode.PAD1 = 0x11;
-
-QRCode.createData = function(typeNumber, errorCorrectLevel, dataList) {
-	
-	var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel);
-	
-	var buffer = new QRBitBuffer();
-	
-	for (var i = 0; i < dataList.length; i++) {
-		var data = dataList[i];
-		buffer.put(data.mode, 4);
-		buffer.put(data.getLength(), QRUtil.getLengthInBits(data.mode, typeNumber) );
-		data.write(buffer);
-	}
-
-	var totalDataCount = 0;
-	for (var x = 0; x < rsBlocks.length; x++) {
-		totalDataCount += rsBlocks[x].dataCount;
-	}
-
-	if (buffer.getLengthInBits() > totalDataCount * 8) {
-		throw new Error("code length overflow. (" + 
-            buffer.getLengthInBits() + 
-            ">" +  
-            totalDataCount * 8 + 
-            ")");
-	}
-
-	if (buffer.getLengthInBits() + 4 <= totalDataCount * 8) {
-		buffer.put(0, 4);
-	}
-
-	while (buffer.getLengthInBits() % 8 !== 0) {
-		buffer.putBit(false);
-	}
-
-	while (true) {
-		
-		if (buffer.getLengthInBits() >= totalDataCount * 8) {
-			break;
-		}
-		buffer.put(QRCode.PAD0, 8);
-		
-		if (buffer.getLengthInBits() >= totalDataCount * 8) {
-			break;
-		}
-		buffer.put(QRCode.PAD1, 8);
-	}
-
-	return QRCode.createBytes(buffer, rsBlocks);
-};
-
-QRCode.createBytes = function(buffer, rsBlocks) {
-
-	var offset = 0;
-	
-	var maxDcCount = 0;
-	var maxEcCount = 0;
-	
-	var dcdata = new Array(rsBlocks.length);
-	var ecdata = new Array(rsBlocks.length);
-	
-	for (var r = 0; r < rsBlocks.length; r++) {
-
-		var dcCount = rsBlocks[r].dataCount;
-		var ecCount = rsBlocks[r].totalCount - dcCount;
-
-		maxDcCount = Math.max(maxDcCount, dcCount);
-		maxEcCount = Math.max(maxEcCount, ecCount);
-		
-		dcdata[r] = new Array(dcCount);
-		
-		for (var i = 0; i < dcdata[r].length; i++) {
-			dcdata[r][i] = 0xff & buffer.buffer[i + offset];
-		}
-		offset += dcCount;
-		
-		var rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
-		var rawPoly = new QRPolynomial(dcdata[r], rsPoly.getLength() - 1);
-
-		var modPoly = rawPoly.mod(rsPoly);
-		ecdata[r] = new Array(rsPoly.getLength() - 1);
-		for (var x = 0; x < ecdata[r].length; x++) {
-            var modIndex = x + modPoly.getLength() - ecdata[r].length;
-			ecdata[r][x] = (modIndex >= 0)? modPoly.get(modIndex) : 0;
-		}
-
-	}
-	
-	var totalCodeCount = 0;
-	for (var y = 0; y < rsBlocks.length; y++) {
-		totalCodeCount += rsBlocks[y].totalCount;
-	}
-
-	var data = new Array(totalCodeCount);
-	var index = 0;
-
-	for (var z = 0; z < maxDcCount; z++) {
-		for (var s = 0; s < rsBlocks.length; s++) {
-			if (z < dcdata[s].length) {
-				data[index++] = dcdata[s][z];
-			}
-		}
-	}
-
-	for (var xx = 0; xx < maxEcCount; xx++) {
-		for (var t = 0; t < rsBlocks.length; t++) {
-			if (xx < ecdata[t].length) {
-				data[index++] = ecdata[t][xx];
-			}
-		}
-	}
-
-	return data;
-
-};
-
-module.exports = QRCode;
-
-};
-var Q=R('index'),E=R('QRErrorCorrectLevel');window.qrcode=function(t,l){return new Q(t||0,E[l||'M'])};})();</script></head><body>
+.adw{position:relative;margin:0 14px 14px;border-radius:18px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.07)}
+.adx{display:flex;align-items:center;gap:14px;padding:18px 18px 26px;color:#fff;min-height:104px;cursor:pointer}
+.adi{width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;flex:none}
+.adt{font-size:11px;font-weight:700;line-height:1.5;min-width:0;text-align:left}
+.adt b{display:block;font-size:17px;font-weight:800;line-height:1.35}
+.adt small{display:block;font-size:11px;font-weight:600;opacity:.92}
+.adp{display:inline-block;background:rgba(255,255,255,.28);font-size:9px;font-weight:800;padding:1px 6px;border-radius:6px;letter-spacing:.5px;vertical-align:1px}
+.add{position:absolute;right:10px;bottom:5px;display:flex;gap:4px}
+.add i{display:block;width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.45);margin:4px 1px;box-sizing:content-box;padding:0}
+.add i.on{background:#fff;width:16px}
+.adv{background:linear-gradient(160deg,#1b1b2f,#3a2a5c);color:#fff;overflow-y:auto}
+</style><script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script></head><body>
 <div id="app"></div><div id="sp"><div class="mk big">T</div>テイテイ</div>
 <script>
-var prize=1,flt="all",meth="銀行口座",bc=0,cnt=30,pt2=null,lk="",KEY="teitei_v2",S=null,view="home",mode="c",amt="",to="",hide=false,tm=null,pending=null;
+var prize=1,flt="all",meth="銀行口座",bc=0,cnt=30,pt2=null,lk="",KEY="teitei_v2",S=null,view="home",mode="c",amt="",to="",hide=false,tm=null,pending=null,bill=null,adi=0,advN=0;
 try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
-var T0=(S&&S._t)||0,cl0=false,svT=null,lastJ="";
-function fresh(){return{bal:0,pts:128,sales:0,hist:[],sh:[],cp:[{id:1,t:"100円OFF",sub:"500円以上のお支払いで",k:"f",v:100,min:500,got:false,used:false},{id:2,t:"10%OFF（最大300円）",sub:"1,000円以上のお支払いで",k:"p",v:10,max:300,min:1000,got:false,used:false},{id:3,t:"ポイント2倍",sub:"どのお支払いでもOK",k:"x",min:0,got:false,used:false}],inv:0,invv:0,invh:[],cardOn:true,omi:null,fr:[],nt:[{t:"テイテイへようこそ！毎日スクラッチを削ってポイントをためよう",ts:"11/1 09:00",r:false},{t:"新しいクーポンが届いています",ts:"11/1 09:01",r:false}],name:["そら","はる","ひなた","れん","みお","あおい","ゆい","りく","ここな","かいと","めい","そうた"][Math.floor(Math.random()*12)]+(100+Math.floor(Math.random()*900)),shop:"テイテイ珈琲 渋谷店",id:"teitei_"+Math.random().toString(36).slice(2,8),snd:true}}
+function fresh(){return{bal:12480,pts:128,sales:0,hist:[],sh:[],cp:[{id:1,t:"100円OFF",sub:"500円以上のお支払いで",k:"f",v:100,min:500,got:false,used:false},{id:2,t:"10%OFF（最大300円）",sub:"1,000円以上のお支払いで",k:"p",v:10,max:300,min:1000,got:false,used:false},{id:3,t:"ポイント2倍",sub:"どのお支払いでもOK",k:"x",min:0,got:false,used:false}],inv:0,invv:0,invh:[],cardOn:true,omi:null,fr:[{n:"さくら"},{n:"たくや"}],nt:[{t:"テイテイへようこそ！毎日スクラッチを削ってポイントをためよう",ts:"11/1 09:00",r:false},{t:"新しいクーポンが届いています",ts:"11/1 09:01",r:false}],name:"テイテイ太郎",shop:"テイテイ珈琲 渋谷店",id:"teitei_user",snd:true,rcv:[],adn:0,add:""}}
 if(!S)S=fresh();var dfl=fresh();for(var k0 in dfl)if(S[k0]===undefined)S[k0]=dfl[k0];
-function jj(){return JSON.stringify(S,function(k,v){return k=="_t"?undefined:v})}
-function savr(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}lastJ=jj()}
-function save(){if(cl0)S._t=Date.now();savr();clearTimeout(svT);svT=setTimeout(cloudSave,800);flash()}
-function flash(){if(!document.body)return;var e=document.getElementById("sv");if(!e){e=document.createElement("div");e.id="sv";e.style.cssText="position:fixed;top:calc(8px + env(safe-area-inset-top,0px));right:10px;z-index:99;font-size:11px;padding:4px 9px;border-radius:99px;background:rgba(0,0,0,.6);color:#fff;opacity:0;transition:opacity .25s;pointer-events:none";e.textContent="✓ 自動保存";document.body.appendChild(e)}e.style.opacity=1;clearTimeout(e._h);e._h=setTimeout(function(){e.style.opacity=0},1200)}
-function cloudSave(){if(!DBx||!UID||!cl0)return;try{DBx.doc("data/users/"+UID+"/s").set({j:JSON.stringify(S),t:S._t||0}).catch(function(){})}catch(e){}}
-async function cloudLoad(){var c=null;try{var d=await DBx.doc("data/users/"+UID+"/s").get();if(d&&d.exists){var x=d.data();c={t:x.t||0,s:JSON.parse(x.j)}}}catch(e){}
- if(c&&c.s&&c.t>T0){S=c.s;var df=fresh();for(var k in df)if(S[k]===undefined)S[k]=df[k];savr();cl0=true;render();return}
- cl0=true;if(!S._t)S._t=Date.now();savr();cloudSave()}
-lastJ=jj();
-setInterval(function(){if(jj()!=lastJ)save()},3000);
-document.addEventListener("visibilitychange",function(){if(document.hidden){savr();cloudSave()}});
-window.addEventListener("pagehide",function(){savr();cloudSave()});
-try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 var P={gear:"M12 15a3 3 0 100-6 3 3 0 000 6zM19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z",home:"M3 11l9-8 9 8v10h-6v-6H9v6H3z",scan:"M4 8V5a1 1 0 011-1h3M16 4h3a1 1 0 011 1v3M20 16v3a1 1 0 01-1 1h-3M8 20H5a1 1 0 01-1-1v-3M4 12h16",send:"M4 12h15M13 6l6 6-6 6",plus:"M12 5v14M5 12h14",list:"M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6",back:"M15 4l-8 8 8 8",check:"M5 12.5l5 5 9-11",eye:"M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 9a3 3 0 100 6 3 3 0 000-6z",eyeoff:"M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM4 4l16 16",user:"M12 12a4 4 0 100-8 4 4 0 000 8zM4 21c0-4 4-6 8-6s8 2 8 6",qr:"M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2v6h-4M14 18h2v2h-2z",gift:"M4 10h16v10H4zM3 7h18v3H3zM12 7v13M12 7c-2 0-4-1-4-2.5S10 2 12 7zM12 7c2 0 4-1 4-2.5S14 2 12 7z",tag:"M3 12V4h8l10 10-8 8zM7.5 8.5h.01",chart:"M4 20V10M10 20V4M16 20v-7M22 20H2",bell:"M6 16V11a6 6 0 0112 0v5l2 2H4zM10 21h4",grid:"M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z",card:"M3 6h18v12H3zM3 10h18",down:"M12 4v14M6 12l6 6 6-6",star:"M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z",bs:"M21 5H9l-6 7 6 7h12zM14 10l-4 4M10 10l4 4"};
 function I(n,s,w){s=s||24;return'<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="'+(w||2)+'" stroke-linecap="round" stroke-linejoin="round"><path d="'+P[n]+'"/></svg>'}
 function yen(n){return"¥"+Number(n).toLocaleString("ja-JP")}
 function now(){var d=new Date();return(d.getMonth()+1)+"/"+d.getDate()+" "+("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2)}
 function toast(m){var t=document.createElement("div");t.className="tt";t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove()},1900)}
 function rng(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return function(){h^=h<<13;h^=h>>>17;h^=h<<5;return(h>>>0)/4294967296}}
-function qr(t,z){var q=qrcode(0,"M");q.addData(t);q.make();var n=q.getModuleCount(),m=n+8,k=Math.max(3,Math.floor(z/m)),d="",x,y;for(y=0;y<n;y++)for(x=0;x<n;x++)if(q.isDark(y,x))d+="M"+(x+4)+" "+(y+4)+"h1v1h-1z";var w=m*k;return'<svg viewBox="0 0 '+m+" "+m+'" width="'+w+'" height="'+w+'" shape-rendering="crispEdges" style="display:block"><rect width="'+m+'" height="'+m+'" fill="#fff"/><path fill="#000" d="'+d+'"/></svg>'}
+function qr(t,z){if(typeof qrcode=="undefined")return qr0(t,z);try{var q=qrcode(0,"L");q.addData(t);q.make();var n=q.getModuleCount(),m=n+8,c="",x,y;for(y=0;y<n;y++)for(x=0;x<n;x++)if(q.isDark(y,x))c+='<rect x="'+(x+4)+'" y="'+(y+4)+'" width="1.02" height="1.02"/>';return'<svg viewBox="0 0 '+m+" "+m+'" width="'+z+'" height="'+z+'" shape-rendering="crispEdges"><rect width="'+m+'" height="'+m+'" fill="#fff"/><g fill="#000">'+c+"</g></svg>"}catch(e){return qr0(t,z)}}
 function qr0(t,z){var n=29,r=rng(t),c="",x,y,fx,fy,on;
  for(y=0;y<n;y++)for(x=0;x<n;x++){
   if((x<8&&y<8)||(x>n-9&&y<8)||(x<8&&y>n-9)){fx=x<8?x:x-(n-7);fy=y<8?y:y-(n-7);if(x>n-9)fx=x-(n-7);if(y>n-9)fy=y-(n-7);
@@ -1327,7 +136,7 @@ function qr0(t,z){var n=29,r=rng(t),c="",x,y,fx,fy,on;
 function bar(t){var r=rng(t),x=0,s="";while(x<320){var w=1+Math.floor(r()*3);s+='<rect x="'+x+'" y="0" width="'+w+'" height="80"/>';x+=w+1+Math.floor(r()*3)}
  return'<svg viewBox="0 0 320 80" width="100%" height="80" fill="#111" preserveAspectRatio="none">'+s+"</svg>"}
 function setMode(m){mode=m;flt="all";view="home";amt="";render()}
-function go(v){clearTimeout(tm);clearInterval(pt2);stopCam();view=v;amt="";render();if(v=="scan")startCam();if(v=="scratch"){var r=Math.random();prize=r<.5?1:r<.8?5:r<.93?10:r<.99?50:100;render();initScr()}if(v=="pay"){cnt=30;pt2=setInterval(tick,1000)}if(v=="inv")pt2=setInterval(function(){if(view!="inv"){clearInterval(pt2);return}invStep();render()},5000);}
+function go(v){clearTimeout(tm);clearInterval(pt2);stopCam();view=v;amt="";render();if(v=="scan"||v=="sscan")startCam();if(v=="scratch"){var r=Math.random();prize=r<.5?1:r<.8?5:r<.93?10:r<.99?50:100;render();initScr()}if(v=="pay"){cnt=30;pt2=setInterval(tick,1000)}if(v=="inv")pt2=setInterval(function(){if(view!="inv"){clearInterval(pt2);return}invStep();render()},5000);}
 function initScr(){var c=document.getElementById("cv");if(!c)return;var x=c.getContext("2d"),g=x.createLinearGradient(0,0,300,170);g.addColorStop(0,"#d9dce3");g.addColorStop(.5,"#f5f6f9");g.addColorStop(1,"#c3c7d0");x.fillStyle=g;x.fillRect(0,0,300,170);
  x.fillStyle="rgba(120,125,140,.55)";x.font="800 26px sans-serif";x.textAlign="center";x.fillText("SCRATCH",150,92);x.font="700 12px sans-serif";x.fillText("ここをこすってね",150,118);
  var dn=false,dw=false;function at(e){var b=c.getBoundingClientRect();x.globalCompositeOperation="destination-out";x.beginPath();x.arc((e.clientX-b.left)*300/b.width,(e.clientY-b.top)*170/b.height,20,0,7);x.fill()}
@@ -1335,24 +144,48 @@ function initScr(){var c=document.getElementById("cv");if(!c)return;var x=c.getC
  function fin(){if(dn)return;dn=true;x.clearRect(0,0,300,170);S.pts+=prize;S.scr=new Date().toDateString();S.scrp=prize;nt("スクラッチで "+prize+"P を獲得しました");save();snd();document.getElementById("sm").innerHTML="<b style='color:var(--ac);font-size:16px'>"+prize+" ポイントを獲得しました！</b>"}
  c.onpointerdown=function(e){dw=true;c.setPointerCapture(e.pointerId);at(e)};c.onpointermove=function(e){if(!dw||dn)return;at(e);if(chk()>.5)fin()};c.onpointerup=function(){dw=false;if(!dn&&chk()>.5)fin()}}
 var stream=null,raf=0,lastT=0,cc=document.createElement("canvas");
+function isScan(){return view=="scan"||view=="sscan"}
 function stopCam(){cancelAnimationFrame(raf);if(stream){stream.getTracks().forEach(function(t){t.stop()});stream=null}}
-function manCode(){var e=document.getElementById("mc"),t=e?e.value.trim():"";if(!t){toast("コードを入力してください");return}onCode(t)}
-function copyCode(){var e=document.getElementById("mycode");if(!e)return;e.select();try{document.execCommand("copy")}catch(x){}try{if(navigator.clipboard)navigator.clipboard.writeText(e.value)}catch(x){}toast("コードをコピーしました")}
-function camFail(){var e=document.getElementById("cmsg");if(e)e.innerHTML='この画面ではライブカメラを使えません。下の「コード入力」か「写真から選ぶ」を使ってください。<br><button class="btn" style="background:#fff;color:var(--ac);box-shadow:none;margin-top:10px" onclick="found()">デモ読み取り（請求がある場合）</button>'}
-function startCam(){var v=document.getElementById("vd");if(!v)return;if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){camFail();return}loadJsQR(function(){});
- navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"},width:{ideal:1920},height:{ideal:1080}},audio:false}).then(function(st){if(view!="scan"){st.getTracks().forEach(function(t){t.stop()});return}stream=st;v.srcObject=st;v.muted=true;v.style.display="block";return v.play()}).then(function(){if(stream)loop()}).catch(function(){navigator.mediaDevices.getUserMedia({video:true,audio:false}).then(function(st){if(view!="scan"){st.getTracks().forEach(function(t){t.stop()});return}stream=st;v.srcObject=st;v.muted=true;v.style.display="block";return v.play()}).then(function(){if(stream)loop()}).catch(camFail)})}
-var bd=null;try{if(window.BarcodeDetector)bd=new BarcodeDetector({formats:["qr_code"]})}catch(e){bd=null}
-function loadJsQR(cb){if(typeof jsQR!="undefined")return cb();var u=["https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js","https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"],i=0;(function nx(){if(i>=u.length)return cb();var e=document.createElement("script");e.src=u[i++];e.onload=cb;e.onerror=nx;document.head.appendChild(e)})()}
-function decJ(x,w,h){if(typeof jsQR=="undefined")return null;var r=jsQR(x.getImageData(0,0,w,h).data,w,h,{inversionAttempts:"attemptBoth"});return r&&r.data?r.data:null}
-var busy=false;
-function loop(){var v=document.getElementById("vd");if(!v||view!="scan")return;var n=Date.now();if(!busy&&n-lastT>100&&v.readyState>=2&&v.videoWidth){lastT=n;var vw=v.videoWidth,vh=v.videoHeight,w=Math.min(1000,vw),h=Math.round(w*vh/vw);cc.width=w;cc.height=h;var x=cc.getContext("2d",{willReadFrequently:true});x.drawImage(v,0,0,w,h);
- var res=decJ(x,w,h);if(res)onCode(res);else if(bd){busy=true;bd.detect(cc).then(function(a){busy=false;if(a&&a.length&&a[0].rawValue&&view=="scan")onCode(a[0].rawValue)}).catch(function(){busy=false})}}
- raf=requestAnimationFrame(loop)}
+function camFail(){var e=document.getElementById("cmsg");if(e)e.innerHTML='この画面ではライブカメラを使えません。下の「カメラで撮影して読み取る」でQRを撮影してください。'}
+function startCam(){var v=document.getElementById("vd");if(!v)return;if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||typeof jsQR=="undefined"){camFail();return}
+ navigator.mediaDevices.getUserMedia({video:{facingMode:"environment",width:{ideal:1280},height:{ideal:720}},audio:false}).then(function(st){if(!isScan()){st.getTracks().forEach(function(t){t.stop()});return}stream=st;v.srcObject=st;v.muted=true;v.style.display="block";return v.play()}).then(function(){if(stream)loop()}).catch(camFail)}
+function loop(){var v=document.getElementById("vd");if(!v||!isScan())return;var n=Date.now();if(n-lastT>120&&v.readyState>=2&&v.videoWidth){lastT=n;var w=Math.min(720,v.videoWidth),h=Math.round(w*v.videoHeight/v.videoWidth);cc.width=w;cc.height=h;var x=cc.getContext("2d",{willReadFrequently:true});x.drawImage(v,0,0,w,h);var r=jsQR(x.getImageData(0,0,w,h).data,w,h);if(r&&r.data)onCode(r.data)}raf=requestAnimationFrame(loop)}
 var warnT=0;
-function onCode(t){var fq=/^TEITEI-FRIEND:([a-z0-9]+):(.*)$/.exec(t);if(fq){if(view!="scan")return;var fp=fq[1],fn="";try{fn=cl(decodeURIComponent(fq[2]))}catch(e){}fn=fn||"友だち";stopCam();if(fp==myPid()){toast("自分のQRです");go("fr");return}if(S.fr.some(function(f){return f.u==fp})){toast(fn+"さんはもう友だちです");go("fr");return}S.fr.push({n:fn,u:fp,q:1});save();toast(fn+"さんと友だちになりました");go("fr");return}var u=/^TEITEI-USER:(.+)$/.exec(t);if(u){stopCam();toId=u[1];var qk=Object.keys(FU).filter(function(k){return FU[k].tid==u[1]})[0];to=qk?String(FU[qk].name||""):"";toast("送り先: "+(to||u[1]));go("send");return}var m=/^TEITEI:(\d+):([^:]+)(?::(.*))?$/.exec(t);if(!m){if(Date.now()-warnT>2500){warnT=Date.now();toast("テイテイのQRコードではありません")}return}
+function warn(m){if(Date.now()-warnT>2500){warnT=Date.now();toast(m)}}
+function onCode(t){if(view=="sscan"){var r=/^TEITEI-PAID:([^:]+):(\d+)$/.exec(t);if(!r)return warn("お客様の「支払い完了QR」ではありません");return settle(r[1],+r[2])}
+ var m=/^TEITEI:(\d+):([^:]+)(?::(.*))?$/.exec(t);if(!m)return warn("テイテイのQRコードではありません");
  var a=+m[1],sh="";if(!a)return;try{sh=m[3]?decodeURIComponent(m[3]):""}catch(e){}
- var ext=!(pending&&pending.id==m[2]);stopCam();pending={id:m[2],amt:a,shop:sh,ext:ext};view="confirm";render()}
+ var ext=!(bill&&bill.id==m[2]);stopCam();pending={id:m[2],amt:a,shop:sh,ext:ext};view="confirm";render()}
+function settle(id,tot){if(!bill||bill.id!=id)return warn("この請求のQRではありません");if(S.rcv.indexOf(id)>=0)return warn("この取引はすでに入金済みです");
+ stopCam();S.sales+=tot;S.sh.unshift({t:"QR決済の入金",i:"qr",d:tot,ts:now()});S.rcv.push(id);S.rcv=S.rcv.slice(-50);bill=null;nt("入金 "+yen(tot)+" を確認しました");save();view="home";render();done("入金を確認しました",tot,S.shop)}
 var useCp=0,showCard=false,ppl=2;
+var ADS={c:[
+{a:"喫茶ミモザ",t:"モーニング50円OFF",s:"テイテイ払いならいつでも",g:"linear-gradient(120deg,#ff0033,#ff7a45)",i:"gift",b:"クーポンをもらう",d:"朝8〜11時のモーニングセットが50円引きに。テイテイ払いの方限定のクーポンです。",cp:{id:4,t:"モーニング50円OFF",sub:"300円以上のお支払いで",k:"f",v:50,min:300}},
+{a:"スーパーひまわり",t:"日曜はポイント5倍デー",s:"毎週日曜・店内のお買い物で",g:"linear-gradient(120deg,#ffb300,#ff6a3d)",i:"star",b:"チェックする",d:"毎週日曜日は店内のお買い物でポイント5倍。まとめ買いがおトクです。"},
+{a:"しろくま旅行保険",t:"1日300円からの旅行保険",s:"スマホで1分で加入",g:"linear-gradient(120deg,#0a6cff,#4cc9ff)",i:"chart",b:"チェックする",d:"1日単位で入れる旅行保険。出発の直前でも申し込めます。"},
+{a:"テイテイカード",t:"カードでもっと便利に",s:"年会費無料・すぐ使える",g:"linear-gradient(120deg,#6a3df0,#c04dff)",i:"card",b:"カードを見る",go:"card",d:"申し込み後すぐにアプリ上で使えます。支払いロックでもしもの時も安心です。"}
+],s:[
+{a:"ぴったレジ",t:"レジ周りをスマートに",s:"キャッシュレス対応POS・初期費用0円",g:"linear-gradient(120deg,#0a6cff,#4cc9ff)",i:"grid",b:"資料をもらう",d:"会計・在庫・売上をひとつの画面で管理できる、小さなお店向けのPOSレジです。"},
+{a:"まめ屋",t:"コーヒー豆の定期便",s:"仕入れを自動化して手間を削減",g:"linear-gradient(120deg,#6a3df0,#c04dff)",i:"gift",b:"くわしく見る",d:"毎週決まった曜日に焙煎したての豆が届きます。いつでも休止・変更OK。"},
+{a:"ちらしくん",t:"お店のチラシをかんたん作成",s:"テンプレート300種以上",g:"linear-gradient(120deg,#00a86b,#4cd9a0)",i:"tag",b:"テンプレを見る",d:"写真と文字を入れるだけ。印刷もデータ配布もこれ一つで。"},
+{a:"テイテイ",t:"加盟店のプロフィールを充実",s:"店名を設定してお客様に見つけてもらおう",g:"linear-gradient(120deg,#ff0033,#ff7a45)",i:"user",b:"設定を開く",go:"set",d:"店舗名を設定すると、請求QRを読み取ったお客様の画面にお店の名前が表示されます。"}
+]};
+function adCard(a,n,st){return'<div class="adx" style="background:'+a.g+';'+(st||"")+'" onclick="adOpen('+n+')"><div class="adi">'+I(a.i,28)+'</div><div class="adt"><span class="adp">PR</span> '+a.a+'<b>'+a.t+'</b><small>'+a.s+'</small></div></div>'}
+function adInner(){var l=ADS[mode],n=adi%l.length;return adCard(l[n],n)+'<div class="add">'+l.map(function(x,k){return'<i class="'+(k==n?"on":"")+'" onclick="adi='+k+';adUp()"></i>'}).join("")+'</div>'}
+function adBox(){return'<div class="adw" id="adb">'+adInner()+'</div>'}
+function adUp(){var e=document.getElementById("adb");if(e)e.innerHTML=adInner()}
+function adRow(){var l=ADS[mode],n=1%l.length,a=l[n];return'<div class="rw" onclick="adOpen('+n+')"><div class="av" style="background:'+a.g+';color:#fff">'+I(a.i,18)+'</div><div class="t"><span class="adp" style="background:var(--ln);color:var(--sb)">PR</span> '+a.t+'<small>'+a.a+' ・ '+a.s+'</small></div><span>›</span></div>'}
+function adEnd(){var l=ADS[mode],n=Math.floor(Math.random()*l.length);return'<div class="adw" style="margin:20px 0 0;width:100%;max-width:320px;box-shadow:none">'+adCard(l[n],n,"padding-bottom:18px;min-height:0")+'</div>'}
+function adOpen(n){var a=ADS[mode][n],d=document.createElement("div");d.className="sh";d.innerHTML='<div class="shb"></div><div class="shc"><div class="hl"></div><div style="border-radius:16px;overflow:hidden">'+adCard(a,n,"padding-bottom:18px;min-height:0;cursor:default").replace(/ onclick="[^"]*"/,"")+'</div><p style="font-size:14px;line-height:1.7;margin:14px 0 4px">'+a.d+'</p><p class="lb">※ これはデモ用の架空の広告です。</p><button class="btn" id="aa">'+a.b+'</button><button class="btn g" id="cl">閉じる</button></div>';document.body.appendChild(d);
+ var x=function(){d.remove()};d.querySelector("#cl").onclick=x;d.querySelector(".shb").onclick=x;d.querySelector("#aa").onclick=function(){x();adAct(n)}}
+function adAct(n){var a=ADS[mode][n];if(a.cp){if(S.cp.some(function(c){return c.id==a.cp.id}))return toast("すでに取得しています");var c={};for(var k in a.cp)c[k]=a.cp[k];c.got=true;c.used=false;S.cp.push(c);nt("クーポン「"+c.t+"」を取得しました");save();return toast("クーポンを取得しました")}
+ if(a.go){var o=document.querySelector(".dn");if(o)o.remove();return go(a.go)}toast("デモ用の広告です")}
+function advLeft(){var d=new Date().toDateString();return S.add==d?Math.max(0,5-S.adn):5}
+function advGo(){if(!advLeft())return toast("今日の動画広告は終了しました");advN=Math.floor(Math.random()*ADS.c.length);go("adv");advStart()}
+function advStart(){var n=5;setTimeout(function(){var g=document.getElementById("adg");if(g)g.style.width="100%"},60);pt2=setInterval(function(){if(view!="adv"){clearInterval(pt2);return}n--;if(n<=0){clearInterval(pt2);advDone();return}var e=document.getElementById("adn");if(e)e.textContent=n},1000)}
+function advDone(){var r=1+Math.floor(Math.random()*3),d=new Date().toDateString();if(S.add!=d){S.add=d;S.adn=0}S.adn++;S.pts+=r;nt("動画広告の視聴で "+r+"P を獲得しました");save();snd();var e=document.getElementById("advb");
+ if(e)e.innerHTML='<div class="ring" style="margin:0 auto 18px">'+I("check",56,3)+'</div><h2 style="margin:0 0 6px">+'+r+' ポイント獲得！</h2><p style="opacity:.85;margin:0 0 22px">保有ポイント '+S.pts+' P</p>'+(advLeft()?'<button class="btn" style="background:#fff;color:#1b1b2f;max-width:320px;margin:0 auto 10px;box-shadow:none" onclick="advGo()">もう1本見る（あと'+advLeft()+'回）</button>':"")+'<button class="btn" style="max-width:320px;margin:0 auto;background:rgba(255,255,255,.2);box-shadow:none" onclick="go(\'pts\')">ポイント画面に戻る</button>'}
+setInterval(function(){adi++;adUp()},5000);
 function bt(fn,l,c){return'<button class="'+(c||"cbtn")+'" onclick="'+fn+'">'+l+'</button>'}
 function nt(t){S.nt.unshift({t:t,ts:now(),r:false});S.nt=S.nt.slice(0,30)}
 function unr(){return S.nt.some(function(n){return!n.r})}
@@ -1366,35 +199,31 @@ function invStep(){if(S.invv>0){S.invv=Math.max(1,Math.round(S.invv*(1+(Math.ran
 function invAdd(){var n=+amt;if(!n)return toast("金額を入力してください");if(n>S.bal)return toast("残高が不足しています");S.bal-=n;S.inv+=n;S.invv+=n;S.invh.push(S.invv);S.hist.unshift({t:"運用に追加",i:"chart",d:-n,ts:now()});save();amt="";toast("運用に追加しました");render()}
 function invOut(){var n=+amt;if(!n)return toast("金額を入力してください");if(n>S.invv)return toast("運用額を超えています");var r=n/S.invv;S.inv=Math.max(0,S.inv-Math.round(S.inv*r));S.invv-=n;S.bal+=n;if(S.invv<=0){S.inv=0;S.invv=0;S.invh=[]}else S.invh.push(S.invv);S.hist.unshift({t:"運用から引き出し",i:"chart",d:n,ts:now()});save();amt="";toast("残高に戻しました");render()}
 function spark(a){if(a.length<2)return'<div class="em">運用を始めるとグラフが表示されます</div>';var mn=Math.min.apply(0,a),mx=Math.max.apply(0,a),r=(mx-mn)||1,p=a.map(function(y,i){return(i/(a.length-1)*300).toFixed(1)+","+(70-(y-mn)/r*60).toFixed(1)}).join(" ");return'<svg viewBox="0 0 300 80" width="100%" height="80" preserveAspectRatio="none"><polyline points="'+p+'" fill="none" stroke="var(--ac)" stroke-width="2.5" stroke-linejoin="round"/></svg>'}
-function delFr(i){var f=S.fr[i];if(!f)return;if(f.q||!DBx||!f.id){S.fr.splice(i,1);save();toast("削除しました");return render()}DBx.doc("fr/"+f.id).delete().then(function(){toast("削除しました")}).catch(function(){toast("削除できませんでした")})}
-function frNo(){var o=document.getElementById("cfm");if(o)o.remove()}
-function frYes(i){frNo();delFr(i)}
-function frAsk(i){var f=S.fr[i];if(!f)return;frNo();var o=document.createElement("div");o.id="cfm";o.style.cssText="position:fixed;inset:0;z-index:120;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:24px";o.innerHTML='<div style="background:var(--cd);color:var(--tx);border-radius:20px;padding:22px 20px;max-width:320px;width:100%;text-align:center"><div style="font-weight:700;font-size:17px;margin-bottom:8px">友だちを削除しますか？</div><div style="font-size:14px;margin-bottom:18px;opacity:.8">'+escN(f.n)+' さんを友だちから削除します'+(f.q?'':'（相手の一覧からも消えます）')+'</div><div style="display:flex;gap:10px"><button class="cbtn" style="flex:1;background:var(--ln);color:var(--tx);padding:12px" onclick="frNo()">やめる</button><button class="cbtn" style="flex:1;background:#e5484d;color:#fff;padding:12px" onclick="frYes('+i+')">削除する</button></div></div>';o.onclick=function(e){if(e.target==o)frNo()};document.body.appendChild(o)}
-function sendTo(i){pickFr(i,1)}
-function pickFr(i,g){var f=S.fr[i];if(!f)return;to=f.n;toId=(FU[f.u]||{}).tid||"";if(g)go("send");else render()}
+function addFr(){var v=cl(document.getElementById("fn").value);if(!v)return toast("名前を入力してください");S.fr.push({n:v});save();render()}
+function delFr(i){S.fr.splice(i,1);save();render()}
+function sendTo(i){to=S.fr[i].n;go("send")}
 function omi(){var d=new Date().toDateString();if(S.omi&&S.omi.d==d)return toast("今日はもう引きました");var t=[["大吉",10],["中吉",5],["小吉",3],["吉",2],["末吉",1],["凶",0]],w=[.1,.2,.25,.25,.15,.05],r=Math.random(),a=0,k=0;for(;k<5;k++){a+=w[k];if(r<a)break}S.omi={d:d,r:t[k][0],p:t[k][1]};S.pts+=t[k][1];nt("おみくじ："+t[k][0]+"（+"+t[k][1]+"P）");save();snd();render()}
 function svc(h){var v=view,i;
  if(v=="cp")return h+'<div class="cd up"><h3>クーポン</h3>'+S.cp.map(function(c){return'<div class="rw" style="cursor:default"><div class="av" style="color:var(--ac)">'+I("tag",18)+'</div><div class="t">'+c.t+'<small>'+c.sub+'</small></div>'+(c.used?'<span>使用済み</span>':c.got?'<span style="color:#0a9d4a;font-weight:800">取得済み</span>':bt("getCp("+c.id+")","取得"))+'</div>'}).join("")+'</div><div class="cd"><p class="lb">取得したクーポンは、支払い確認画面で選んで使えます。</p></div>';
- if(v=="pts")return h+'<div class="cd up ctr"><div class="lb" style="justify-content:center">保有ポイント</div><div class="bal">'+S.pts+' P</div></div><div class="cd"><h3>スクラッチ</h3><p class="lb">毎日1回、最大100Pが当たります</p>'+bt("go('scratch')","スクラッチを削る","btn")+'</div><div class="cd"><h3>ポイントを残高に交換</h3><div class="amt">'+(amt||0)+' P</div>'+pad()+bt("xch()","1P＝1円で交換する","btn")+'</div>';
+ if(v=="pts")return h+'<div class="cd up ctr"><div class="lb" style="justify-content:center">保有ポイント</div><div class="bal">'+S.pts+' P</div></div><div class="cd"><h3>スクラッチ</h3><p class="lb">毎日1回、最大100Pが当たります</p>'+bt("go('scratch')","スクラッチを削る","btn")+'</div><div class="cd"><h3>動画広告でポイント</h3><p class="lb">5秒の動画広告を見ると1〜3Pがもらえます（今日あと '+advLeft()+' 回）</p>'+bt("advGo()","動画広告を見る","btn")+'</div><div class="cd"><h3>ポイントを残高に交換</h3><div class="amt">'+(amt||0)+' P</div>'+pad()+bt("xch()","1P＝1円で交換する","btn")+'</div>';
  if(v=="inv"){var g=S.invv-S.inv,pc=S.inv?g/S.inv*100:0;return h+'<div class="cd up"><div class="lb">運用評価額（デモ）</div><div class="bal">'+yen(S.invv)+'</div><div style="font-weight:800;color:'+(g<0?"#e5001f":"#0a9d4a")+'">'+(g<0?"−":"+")+yen(Math.abs(g))+'（'+pc.toFixed(2)+'%）</div>'+spark(S.invh)+'</div><div class="cd"><div class="lb" style="justify-content:center">金額（残高 '+yen(S.bal)+'）</div><div class="amt">'+yen(amt||0)+'</div>'+pad()+'<div style="display:flex;gap:8px">'+bt("invAdd()","運用に追加","btn")+bt("invOut()","引き出す","btn g")+'</div><p class="lb" style="margin-top:12px">※ 値動きはデモ用の架空のものです。実際の投資ではありません。</p></div>'}
  if(v=="card")return h+'<div class="cd up" style="background:none;box-shadow:none;padding:0"><div class="cardf"><div style="display:flex;justify-content:space-between;font-weight:900"><span>テイテイ カード</span><span style="font-size:12px;font-weight:700">'+(S.cardOn===false?"ロック中":"利用可能")+'</span></div><div style="font-size:21px;letter-spacing:2px;font-weight:700">'+(showCard?"4921 0386 7715 2048":"•••• •••• •••• 2048")+'</div><div style="display:flex;justify-content:space-between;font-size:13px"><span>'+S.name+'</span><span>有効期限 12/29 ・ CVC '+(showCard?"731":"•••")+'</span></div></div></div><div class="cd"><div class="sw"><span>カード番号を表示</span>'+bt("showCard=!showCard;render()",showCard?"隠す":"表示")+'</div><div class="sw"><span>支払いロック</span>'+bt("S.cardOn=S.cardOn===false;save();render()",S.cardOn===false?"解除する":"ロックする")+'</div><p class="lb" style="margin-top:8px">ロック中は、バーコード・QRでの支払いができません。</p></div>';
  if(v=="nt"){var l=S.nt.length?S.nt.map(function(n){return'<div class="rw" style="cursor:default"><div class="av" style="color:var(--ac)">'+I("bell",18)+'</div><div class="t">'+n.t+'<small>'+n.ts+'</small></div>'+(n.r?"":'<i class="dt"></i>')+'</div>'}).join(""):'<div class="em">お知らせはありません</div>';S.nt.forEach(function(n){n.r=true});save();return h+'<div class="cd up"><h3>お知らせ</h3>'+l+'</div>'}
- if(v=="fr")return frView(h);
+ if(v=="fr")return h+'<div class="cd up"><h3>友だちを追加</h3><input id="fn" maxlength="12" placeholder="友だちの名前">'+bt("addFr()","追加","btn")+'</div><div class="cd"><h3>友だち（'+S.fr.length+'）</h3>'+(S.fr.length?S.fr.map(function(f,i){return'<div class="rw" style="cursor:default"><div class="av">'+I("user",18)+'</div><div class="t">'+f.n+'</div>'+bt("sendTo("+i+")","送る")+'<button class="cbtn" style="background:var(--ln);color:var(--tx);margin-left:6px" onclick="delFr('+i+')">削除</button></div>'}).join(""):'<div class="em">まだ友だちがいません</div>')+'</div>';
  if(v=="mini")return h+'<div class="cd up"><h3>ミニアプリ</h3><div class="sv" style="grid-template-columns:repeat(2,1fr);gap:12px"><button onclick="go(\'split\')"><div class="ib" style="width:100%;height:84px">'+I("grid",30)+'</div>割り勘計算</button><button onclick="go(\'omi\')"><div class="ib" style="width:100%;height:84px">'+I("star",30)+'</div>おみくじ</button></div></div>';
  if(v=="split"){var per=amt?Math.ceil(+amt/ppl):0;return h+'<div class="cd up"><div class="lb" style="justify-content:center">合計金額</div><div class="amt">'+yen(amt||0)+'</div><div class="chips">'+[2,3,4,5,6].map(function(n){return'<button class="'+(ppl==n?"sel":"")+'" onclick="ppl='+n+';render()">'+n+'人</button>'}).join("")+'</div>'+pad()+'<div class="rw" style="cursor:default"><div class="t">1人あたり</div><b style="font-size:20px">'+yen(per)+'</b></div>'+bt("if("+per+"){go(\'send\');amt=\'"+per+"\';render()}else toast(\'金額を入力してください\')","1人分を友だちに送る","btn")+'</div>'}
  if(v=="omi"){var o=S.omi&&S.omi.d==new Date().toDateString()?S.omi:null;return h+'<div class="cd up ctr"><span class="bd">毎日1回</span><div style="font-size:72px;font-weight:900;margin:18px 0 6px;color:var(--ac)">'+(o?o.r:"？")+'</div><p class="lb" style="justify-content:center">'+(o?"+"+o.p+"P を獲得しました。また明日！":"今日の運勢を占って、ポイントをもらおう")+'</p>'+(o?"":bt("omi()","おみくじを引く","btn"))+'</div>'}
  if(v=="kake"){var sp=S.hist.filter(function(x){return x.d<0}),tot=0,c={a:0,b:0,c:0},dy=[],mp={};sp.slice().reverse().forEach(function(x){tot-=x.d;(x.i=="qr"?c.a-=x.d:x.i=="user"?c.b-=x.d:c.c-=x.d);var k=x.ts.split(" ")[0];if(!(k in mp)){mp[k]=0;dy.push(k)}mp[k]-=x.d});dy=dy.slice(-7);var mx=Math.max.apply(0,dy.map(function(k){return mp[k]}).concat([1]));
   return h+'<div class="cd up"><div class="lb">これまでの支出</div><div class="bal">'+yen(tot)+'</div><div class="lb">'+sp.length+'件の支出</div></div><div class="cd" style="padding-bottom:40px"><h3>日別の支出</h3>'+(dy.length?'<div class="wk">'+dy.map(function(k){return'<div class="t" style="height:'+Math.max(6,Math.round(mp[k]/mx*100))+'%"><span>'+k+'</span></div>'}).join("")+'</div>':'<div class="em">まだ支出がありません</div>')+'</div><div class="cd"><h3>カテゴリ別</h3><div class="rw" style="cursor:default"><div class="t">お店での支払い</div><b>'+yen(c.a)+'</b></div><div class="rw" style="cursor:default"><div class="t">送金</div><b>'+yen(c.b)+'</b></div><div class="rw" style="cursor:default"><div class="t">運用・その他</div><b>'+yen(c.c)+'</b></div></div>'}
  return null}
-function imgScan(inp){var f=inp.files&&inp.files[0];if(!f)return;var im=new Image();im.onload=function(){URL.revokeObjectURL(im.src);loadJsQR(function(){var r=null;[1600,1200,900,640,420].some(function(mx){var k=Math.min(1,mx/Math.max(im.width,im.height)),w=Math.round(im.width*k),h=Math.round(im.height*k);cc.width=w;cc.height=h;var x=cc.getContext("2d",{willReadFrequently:true});x.fillStyle="#fff";x.fillRect(0,0,w,h);x.drawImage(im,0,0,w,h);r=decJ(x,w,h);return r});
- if(r)return onCode(r);if(bd){bd.detect(im).then(function(a){if(a&&a.length&&a[0].rawValue)onCode(a[0].rawValue);else toast("QRを検出できませんでした。QRを大きく、ピントを合わせて写してください")}).catch(function(){toast("QRを検出できませんでした。QRを大きく、ピントを合わせて写してください")})}else toast("QRを検出できませんでした。QRを大きく、ピントを合わせて写してください")})};im.onerror=function(){toast("画像を読み込めませんでした")};im.src=URL.createObjectURL(f);inp.value=""}
+function imgScan(inp){var f=inp.files&&inp.files[0];if(!f)return;var im=new Image();im.onload=function(){var r=null;[1600,1000,640].some(function(mx){var k=Math.min(1,mx/Math.max(im.width,im.height)),w=Math.round(im.width*k),h=Math.round(im.height*k);cc.width=w;cc.height=h;var x=cc.getContext("2d",{willReadFrequently:true});x.drawImage(im,0,0,w,h);r=typeof jsQR!="undefined"&&jsQR(x.getImageData(0,0,w,h).data,w,h);return r&&r.data});URL.revokeObjectURL(im.src);if(r&&r.data)onCode(r.data);else toast("QRを検出できませんでした。QRを大きく写してください")};im.onerror=function(){toast("画像を読み込めませんでした")};im.src=URL.createObjectURL(f);inp.value=""}
 function cl(v){return v.replace(/[<>&"'`]/g,"").trim()}
 var rs=false;
-function rstf(){if(!rs){rs=true;toast("もう一度押すと初期化されます");setTimeout(function(){rs=false},4000);return}S=fresh();pending=null;save();rs=false;go("home")}
+function rstf(){if(!rs){rs=true;toast("もう一度押すと初期化されます");setTimeout(function(){rs=false},4000);return}S=fresh();pending=null;bill=null;save();rs=false;go("home")}
 function inp(lb,key,ph){return'<div class="lb" style="margin:10px 0 6px">'+lb+'</div><input value="'+S[key]+'" maxlength="16" placeholder="'+ph+'" onchange="var v=cl(this.value);'+(key=="id"?"v=v.replace(/\\W/g,\'\');":"")+'if(v){S.'+key+'=v;save();toast(\'保存しました\');render()}">'}
 function setv(h){var c=mode=="c";return h+'<div class="cd up"><div class="top2" style="justify-content:flex-start;gap:14px"><div class="av" style="width:64px;height:64px;background:var(--ac);color:#fff;font-size:26px;font-weight:800">'+(c?S.name:S.shop).slice(0,1)+'</div><div><b style="font-size:18px">'+(c?S.name:S.shop)+'</b><div class="lb">ID: '+S.id+'</div></div></div></div><div class="cd"><h3>プロフィール</h3>'+(c?inp("ユーザー名","name","名前を入力"):inp("店舗名","shop","店舗名を入力"))+inp("テイテイID（英数字）","id","teitei_user")+'</div><div class="cd"><h3>設定</h3><div class="sw"><span>決済音</span><button class="cbtn" onclick="S.snd=S.snd===false;save();render()">'+(S.snd===false?"オフ":"オン")+'</button></div><div class="sw"><span>残高を隠す</span><button class="cbtn" onclick="hide=!hide;render()">'+(hide?"オン":"オフ")+'</button></div></div><div class="cd"><h3>データ</h3><button class="btn g" style="color:#e5001f" onclick="rstf()">データを初期化する</button></div>'}
 function tick(){if(view!="pay"){clearInterval(pt2);return}cnt--;if(cnt<=0){cnt=30;bc++;var e=document.getElementById("bcs");if(e)e.innerHTML=bar("teitei-"+bc)}var n=document.getElementById("bcn");if(n)n.textContent=cnt;var b=document.getElementById("bcb");if(b)b.style.width=(cnt/30*100)+"%"}
-function snd(w){if(S.snd===false)return;if(w&&window.speechSynthesis&&window.SpeechSynthesisUtterance){try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance("テイテイ");u.lang="ja-JP";u.rate=1.15;u.pitch=1.4;u.volume=1;speechSynthesis.speak(u);return}catch(e){}}if(w){try{var c2=new(window.AudioContext||window.webkitAudioContext)(),t2=c2.currentTime;[0,.22].forEach(function(d){var o=c2.createOscillator(),g=c2.createGain();o.type="triangle";o.frequency.value=1568;o.connect(g);g.connect(c2.destination);g.gain.setValueAtTime(0,t2+d);g.gain.linearRampToValueAtTime(.35,t2+d+.01);g.gain.exponentialRampToValueAtTime(.001,t2+d+.18);o.start(t2+d);o.stop(t2+d+.2)});return}catch(e){}}try{var c=new(window.AudioContext||window.webkitAudioContext)(),t=c.currentTime;[[988,0],[1318,.13],[1760,.26]].forEach(function(f){var o=c.createOscillator(),g=c.createGain();o.type="sine";o.frequency.value=f[0];o.connect(g);g.connect(c.destination);g.gain.setValueAtTime(0,t+f[1]);g.gain.linearRampToValueAtTime(.25,t+f[1]+.02);g.gain.exponentialRampToValueAtTime(.001,t+f[1]+.3);o.start(t+f[1]);o.stop(t+f[1]+.32)})}catch(e){}}
+function snd(){if(S.snd===false)return;try{var c=new(window.AudioContext||window.webkitAudioContext)(),t=c.currentTime;[[988,0],[1318,.13],[1760,.26]].forEach(function(f){var o=c.createOscillator(),g=c.createGain();o.type="sine";o.frequency.value=f[0];o.connect(g);g.connect(c.destination);g.gain.setValueAtTime(0,t+f[1]);g.gain.linearRampToValueAtTime(.25,t+f[1]+.02);g.gain.exponentialRampToValueAtTime(.001,t+f[1]+.3);o.start(t+f[1]);o.stop(t+f[1]+.32)})}catch(e){}}
 function det(k,n){var h=S[k][n],p=h.d>0,d=document.createElement("div");d.className="sh";d.innerHTML='<div class="shb"></div><div class="shc"><div class="hl"></div><div class="lb" style="justify-content:center">'+h.t+'</div><div class="amt" style="margin:6px 0 10px">'+(p?"+":"−")+yen(Math.abs(h.d))+'</div><div class="rw"><div class="t">日時</div><span>'+h.ts+'</span></div><div class="rw"><div class="t">取引ID</div><span>TT'+(104729+n*7919)+'</span></div><div class="rw"><div class="t">支払い方法</div><span>テイテイ残高</span></div>'+(k=="sh"&&p&&!h.rf?'<button class="btn g" id="rf" style="color:#e5001f">この取引を返金する</button>':"")+'<button class="btn" id="cl">閉じる</button></div>';document.body.appendChild(d);
  var x=function(){d.remove()};d.querySelector("#cl").onclick=x;d.querySelector(".shb").onclick=x;
  var r=d.querySelector("#rf");if(r)r.onclick=function(){S.bal+=h.d;S.sales-=h.d;h.rf=true;S.sh.unshift({t:"返金",i:"back",d:-h.d,ts:now()});S.hist.unshift({t:"返金（"+S.shop+"）",i:"down",d:h.d,ts:now()});save();x();toast("返金しました");render()}}
@@ -1403,65 +232,42 @@ function pad(){var h="";"123456789".split("").concat(["C","0","d"]).forEach(func
 function hdr(t){return view=="home"?'<div class="hd"><span class="logo"><span class="mk">T</span>テイテイ'+(mode=="s"?"<i>ストア</i>":"")+'</span><div style="display:flex;align-items:center;gap:4px"><div class="seg"><button class="'+(mode=="c"?"on":"")+'" onclick="setMode(\'c\')">お客様</button><button class="'+(mode=="s"?"on":"")+'" onclick="setMode(\'s\')">お店</button></div><button class="bk" style="width:34px" onclick="go(\'set\')">'+I("gear",24)+'</button></div></div>':'<div class="hd sm"><button class="bk" onclick="go(\'home\')">'+I("back",24,2.5)+'</button><span class="ttl">'+t+'</span><span style="width:40px"></span></div>'}
 function rows(a,k){var em='<div class="em">まだ取引がありません</div>';if(!a.length)return em;var l=a.map(function(h,n){return{h:h,n:n}});if(view=="hist"&&mode=="c"&&flt!="all")l=l.filter(function(o){return flt=="pay"?o.h.i=="qr":o.h.i!="qr"});if(!l.length)return em;return l.slice(0,view=="home"?5:40).map(function(o){var h=o.h,p=h.d>0;return'<div class="rw" onclick="det(\''+k+'\','+o.n+')"><div class="av">'+I(h.i,18)+'</div><div class="t">'+h.t+(h.rf?"（返金済み）":"")+"<small>"+h.ts+'</small></div><div class="a '+(p?"pl":"")+'">'+(p?"+":"−")+yen(Math.abs(h.d))+"</div></div>"}).join("")}
 function acts(l){return'<div class="cd"><div class="g4">'+l.map(function(b){return'<button onclick="go(\''+b[0]+'\')"><div class="ib">'+I(b[1],26)+"</div>"+b[2]+"</button>"}).join("")+"</div></div>"}
-function tabs(){if(["pay","scan","confirm"].indexOf(view)>=0)return"";var c=mode=="c",m=c?["pay","scan","支払う"]:["bill","qr","請求"];
+function tabs(){if(["pay","scan","confirm","adv","sscan"].indexOf(view)>=0)return"";var c=mode=="c",m=c?["pay","scan","支払う"]:["bill","qr","請求"];
  return'<div class="tb"><div class="tbi"><button class="'+(view=="home"?"on":"")+'" onclick="go(\'home\')">'+I("home",24)+'ホーム</button><button class="mid" onclick="go(\''+m[0]+'\')"><span>'+I(m[1],30)+"</span>"+m[2]+'</button><button class="'+(view=="hist"?"on":"")+'" onclick="go(\'hist\')">'+I("list",24)+"履歴</button></div></div>"}
 function cust(){
  if(view=="pay")return'<div class="full pay"><div class="hd sm" style="background:none"><button class="bk" onclick="go(\'home\')">'+I("back",24,2.5)+'</button><span class="ttl">支払い</span><span style="width:40px"></span></div><div class="cd ctr" style="margin-top:6px;padding:24px 20px"><span class="bd">バーコード支払い</span><p class="lb" style="justify-content:center;margin:10px 0 16px">お店の方にバーコードを見せてください</p>'+'<div id="bcs">'+bar("teitei-"+bc)+'</div><div class="cdn"><u id="bcb" style="width:100%"></u></div><div class="lb" style="justify-content:center;margin-top:8px">コードは <b id="bcn">'+cnt+'</b> 秒ごとに更新されます</div>'+'<p style="margin:14px 0 2px;font-size:12px;color:var(--sb);letter-spacing:3px">4921 0386 7715</p><div class="lb" style="justify-content:center">テイテイ残高 '+yen(S.bal)+'</div></div><div style="padding:0 14px"><button class="btn" style="background:#fff;color:var(--ac);box-shadow:none" onclick="go(\'scan\')">'+I("scan",22)+'　スキャンして支払う</button></div></div>';
- if(view=="scan")return'<div class="full scn"><video id="vd" class="vid" playsinline muted></video><div class="hd sm" style="background:none;position:relative"><button class="bk" onclick="go(\'home\')">'+I("back",24,2.5)+'</button><span class="ttl">スキャン</span><span style="width:40px"></span></div><div class="fr"><b></b><b></b><b></b><b></b><u></u></div><p id="cmsg" class="ctr" style="padding:0 20px 14px;font-size:14px;color:#fff;position:relative;text-shadow:0 1px 4px rgba(0,0,0,.4)">お店のQRコードを枠内に合わせてください</p><label class="btn" style="background:#fff;color:var(--ac);box-shadow:none;margin:0 20px 10px;width:auto;position:relative;font-size:16px;padding:15px;text-align:center">カメラで撮影して読み取る<input type="file" accept="image/*" capture="environment" style="display:none" onchange="imgScan(this)"></label><label class="btn" style="background:rgba(255,255,255,.25);box-shadow:none;margin:0 20px 40px;width:auto;position:relative;font-size:14px;padding:13px;text-align:center">写真から選ぶ<input type="file" accept="image/*" style="display:none" onchange="imgScan(this)"></label><div style="display:flex;gap:8px;margin:0 20px 40px;position:relative"><input id="mc" placeholder="コードを入力・貼り付け" style="flex:1;min-width:0;padding:13px;border-radius:12px;border:0;font-size:14px"><button class="btn" style="background:#fff;color:var(--ac);box-shadow:none;width:auto;padding:13px 18px;font-size:14px" onclick="manCode()">OK</button></div></div>';
+ if(view=="scan"||view=="sscan")return'<div class="full scn"><video id="vd" class="vid" playsinline muted></video><div class="hd sm" style="background:none;position:relative"><button class="bk" onclick="go(\''+(view=="sscan"?"bill":"home")+'\')">'+I("back",24,2.5)+'</button><span class="ttl">'+(view=="sscan"?"入金確認":"スキャン")+'</span><span style="width:40px"></span></div><div class="fr"><b></b><b></b><b></b><b></b><u></u></div><p id="cmsg" class="ctr" style="padding:0 20px 14px;font-size:14px;color:#fff;position:relative;text-shadow:0 1px 4px rgba(0,0,0,.4)">'+(view=="sscan"?"お客様の「支払い完了QR」を枠内に合わせてください":"お店のQRコードを枠内に合わせてください")+'</p>'+(view=="scan"&&bill?'<button class="btn" style="background:#fff;color:var(--ac);box-shadow:none;margin:0 20px 10px;width:auto;position:relative;font-size:15px;padding:13px" onclick="found()">デモ：お店の請求を読み取る</button>':"")+'<label class="btn" style="background:#fff;color:var(--ac);box-shadow:none;margin:0 20px 10px;width:auto;position:relative;font-size:16px;padding:15px;text-align:center">カメラで撮影して読み取る<input type="file" accept="image/*" capture="environment" style="display:none" onchange="imgScan(this)"></label><label class="btn" style="background:rgba(255,255,255,.25);box-shadow:none;margin:0 20px 40px;width:auto;position:relative;font-size:14px;padding:13px;text-align:center">写真から選ぶ<input type="file" accept="image/*" style="display:none" onchange="imgScan(this)"></label></div>';
  if(view=="confirm"){var p=pending;return'<div class="full" style="background:var(--bg)"><div class="hd sm"><button class="bk" onclick="go(\'home\')">'+I("back",24,2.5)+'</button><span class="ttl">支払い確認</span><span style="width:40px"></span></div><div class="cd up ctr"><div class="av" style="margin:0 auto 10px;width:56px;height:56px;color:var(--ac)">'+I("qr",28)+'</div><div class="lb" style="justify-content:center">'+(p.shop||S.shop)+'</div><div class="amt" style="margin-bottom:4px">'+yen(p.amt)+'</div><div class="lb" style="justify-content:center">獲得予定 '+Math.floor(p.amt*.005)+'P</div></div><div class="cd"><div class="rw"><div class="t">支払い方法</div><b>テイテイ残高</b></div><div class="rw"><div class="t">クーポン</div><span>'+cpLine(p)+'</span></div><div class="rw"><div class="t">お支払い金額</div><b>'+yen(p.amt-cpOff(p).off)+'</b></div><div class="rw"><div class="t">支払い後の残高</div><b>'+yen(S.bal-p.amt+cpOff(p).off)+'</b></div></div>'+cpChips(p)+'<div style="padding:0 14px"><button class="btn" onclick="pay()">'+yen(p.amt-cpOff(p).off)+'を支払う</button></div></div>'}
+ if(view=="adv"){var av=ADS.c[advN];return'<div class="full adv"><div class="hd sm" style="background:none"><button class="bk" onclick="go(\'pts\')">'+I("back",24,2.5)+'</button><span class="ttl">広告</span><span class="adp" style="margin-right:6px">PR</span></div><div id="advb" style="margin:auto;text-align:center;padding:24px;width:100%"><div class="adi" style="width:96px;height:96px;margin:0 auto 18px;border-radius:28px;background:'+av.g+';animation:pop .6s cubic-bezier(.2,1.4,.4,1)">'+I(av.i,48)+'</div><h2 style="margin:0 0 6px">'+av.a+'</h2><p style="opacity:.85;margin:0 0 22px">'+av.t+'</p><div style="font-size:44px;font-weight:800" id="adn">5</div><div class="lb" style="justify-content:center;color:rgba(255,255,255,.7)">秒後にポイントがもらえます</div><div class="cdn" style="max-width:260px;margin:16px auto 0;background:rgba(255,255,255,.2)"><u id="adg" style="width:0;background:#fff;transition:width 5s linear"></u></div><p style="opacity:.55;font-size:11px;margin-top:26px">※ デモ用の架空の広告です</p></div></div>'}
  var h=hdr({cp:"クーポン",pts:"ポイント",inv:"運用",card:"カード",nt:"お知らせ",fr:"友だち",mini:"ミニアプリ",split:"割り勘",omi:"おみくじ",kake:"家計簿",set:"設定",scratch:"スクラッチ",charge:"チャージ",send:"送る",recv:"受け取る",hist:"取引履歴"}[view]);
- if(view=="home")return h+'<div class="cd up"><div class="top2"><div><div class="lb">'+S.name+' さんの残高 <button class="eye" onclick="hide=!hide;render()">'+I(hide?"eyeoff":"eye",18)+'</button></div><div class="bal">'+(hide?"¥ ＊＊＊＊＊":yen(S.bal))+'</div></div><button class="cbtn" onclick="go(\'charge\')">チャージ</button></div><div class="pts"><span class="pill" style="background:#fff4c2;color:#6b5400"><i></i>'+S.pts+' P</span><span class="lb">ポイント残高</span></div></div>'+acts([["scan","scan","スキャン"],["send","send","送る"],["recv","down","受け取る"],["hist","list","履歴"]])+'<div class="bn" style="background:linear-gradient(120deg,#ffb300,#ff6a3d)"><div>ポイントスクラッチ<small>毎日1回、最大100Pが当たる</small></div><b style="color:#ff5a1f" onclick="go(\'scratch\')">削る</b></div><div class="bn"><div>はじめてのお買い物で<br>最大0.5%還元<small>テイテイ加盟店でQR支払い</small></div><b onclick="go(\'scan\')">使ってみる</b></div><div class="cd"><h3>サービス</h3><div class="sv">'+[["gift","クーポン","cp"],["tag","ポイント","pts"],["chart","運用","inv"],["card","カード","card"],["bell","お知らせ","nt"],["user","友だち","fr"],["grid","ミニアプリ","mini"],["list","家計簿","kake"]].map(function(b){return'<button onclick="go(\''+b[2]+'\')"><div class="ib">'+I(b[0],22)+"</div>"+b[1]+(b[2]=="nt"&&unr()?'<i class="dt"></i>':"")+"</button>"}).join("")+'</div></div><div class="cd"><h3>最近の取引</h3>'+rows(S.hist,"hist")+"</div>";
+ if(view=="home")return h+'<div class="cd up"><div class="top2"><div><div class="lb">'+S.name+' さんの残高 <button class="eye" onclick="hide=!hide;render()">'+I(hide?"eyeoff":"eye",18)+'</button></div><div class="bal">'+(hide?"¥ ＊＊＊＊＊":yen(S.bal))+'</div></div><button class="cbtn" onclick="go(\'charge\')">チャージ</button></div><div class="pts"><span class="pill" style="background:#fff4c2;color:#6b5400"><i></i>'+S.pts+' P</span><span class="lb">ポイント残高</span></div></div>'+acts([["scan","scan","スキャン"],["send","send","送る"],["recv","down","受け取る"],["hist","list","履歴"]])+'<div class="bn" style="background:linear-gradient(120deg,#ffb300,#ff6a3d)"><div>ポイントスクラッチ<small>毎日1回、最大100Pが当たる</small></div><b style="color:#ff5a1f" onclick="go(\'scratch\')">削る</b></div><div class="bn"><div>はじめてのお買い物で<br>最大0.5%還元<small>テイテイ加盟店でQR支払い</small></div><b onclick="go(\'scan\')">使ってみる</b></div>'+adBox()+'<div class="cd"><h3>サービス</h3><div class="sv">'+[["gift","クーポン","cp"],["tag","ポイント","pts"],["chart","運用","inv"],["card","カード","card"],["bell","お知らせ","nt"],["user","友だち","fr"],["grid","ミニアプリ","mini"],["list","家計簿","kake"]].map(function(b){return'<button onclick="go(\''+b[2]+'\')"><div class="ib">'+I(b[0],22)+"</div>"+b[1]+(b[2]=="nt"&&unr()?'<i class="dt"></i>':"")+"</button>"}).join("")+'</div></div><div class="cd"><h3>最近の取引</h3>'+rows(S.hist,"hist")+"</div>";
  if(view=="set")return setv(h);
  var sv2=svc(h);if(sv2)return sv2;
  if(view=="scratch"){var dn=S.scr==new Date().toDateString();return h+'<div class="cd up ctr"><span class="bd">毎日1回 ポイントスクラッチ</span><p class="lb" style="justify-content:center;margin:10px 0 14px">'+(dn?"今日のスクラッチは完了しました":"銀色の部分を指でこすってください")+'</p><div class="scw"><div class="prz"><small>獲得ポイント</small><b>'+(dn?S.scrp:prize)+'<span style="font-size:22px"> P</span></b></div>'+(dn?"":'<canvas id="cv" width="300" height="170"></canvas>')+'</div><div id="sm" class="lb" style="justify-content:center;margin-top:14px">'+(dn?"また明日チャレンジしてね":"当たりは最大100P")+'</div><button class="btn g" onclick="go(\'home\')">ホームに戻る</button></div>'}
  if(view=="recv")return h+'<div class="cd up ctr"><span class="bd">受け取り用QR</span><p class="lb" style="justify-content:center;margin:10px 0">相手に読み取ってもらうと送金を受け取れます</p><div class="bx">'+qr("TEITEI-USER:"+S.id,220)+'</div><p style="font-weight:800;margin:12px 0 0">テイテイID: '+S.id+'</p></div>';
  if(view=="charge")return h+'<div class="cd up"><div class="lb" style="justify-content:center">チャージ金額</div><div class="amt">'+yen(amt||0)+'</div><div class="chips">'+["銀行口座","ATM","カード"].map(function(m){return"<button class=\""+(meth==m?"sel":"")+"\" onclick=\"meth='"+m+"';render()\">"+m+"</button>"}).join("")+'</div><div class="chips">'+[1000,5000,10000].map(function(n){return"<button onclick=\"amt='"+n+"';render()\">"+yen(n)+"</button>"}).join("")+"</div>"+pad()+'<button class="btn" onclick="charge()">チャージする</button></div>';
- if(view=="send")return h+'<div class="cd up"><div class="lb" style="margin-bottom:8px">送り先</div>'+(S.fr.length?'<div class="chips" style="flex-wrap:wrap">'+S.fr.map(function(f,i){return'<button onclick="pickFr('+i+')">'+escN(f.n)+'</button>'}).join("")+'</div>':"")+'<input placeholder="相手の名前" value="'+escN(to)+'" oninput="to=this.value"><input placeholder="相手のテイテイID" value="'+escN(toId)+'" oninput="toId=this.value" style="margin-top:8px"><div class="amt">'+yen(amt||0)+"</div>"+pad()+'<button class="btn" onclick="send()">送る</button></div>';
- return h+'<div class="cd up"><h3>すべての取引</h3><div class="chips">'+[["all","すべて"],["pay","支払い"],["oth","チャージ・送金"]].map(function(c){return'<button class="'+(flt==c[0]?"sel":"")+'" onclick="flt=\''+c[0]+'\';render()">'+c[1]+"</button>"}).join("")+'</div>'+rows(S.hist,"hist")+"</div>"}
+ if(view=="send")return h+'<div class="cd up"><div class="lb" style="margin-bottom:8px">送り先</div>'+(S.fr.length?'<div class="chips" style="flex-wrap:wrap">'+S.fr.map(function(f){return'<button onclick="to=\''+f.n+'\';render()">'+f.n+'</button>'}).join("")+'</div>':"")+'<input placeholder="相手の名前" value="'+to+'" oninput="to=this.value"><div class="amt">'+yen(amt||0)+"</div>"+pad()+'<button class="btn" onclick="send()">送る</button></div>';
+ return h+'<div class="cd up"><h3>すべての取引</h3><div class="chips">'+[["all","すべて"],["pay","支払い"],["oth","チャージ・送金"]].map(function(c){return'<button class="'+(flt==c[0]?"sel":"")+'" onclick="flt=\''+c[0]+'\';render()">'+c[1]+"</button>"}).join("")+'</div>'+rows(S.hist,"hist")+adRow()+"</div>"}
 function shopv(){var h=hdr({set:"設定",bill:"請求",qr:"請求",hist:"売上履歴"}[view]);
- if(view=="home")return h+'<div class="cd up"><div class="lb">'+S.shop+' ・ 本日の売上</div><div class="bal">'+yen(S.sales)+'</div><div class="pts"><span>取引件数</span><b>'+S.sh.length+' 件</b></div></div>'+acts([["bill","qr","請求QR"],["hist","list","売上履歴"]]).replace("repeat(4","repeat(2")+weekly()+'<div class="cd"><h3>最近の入金</h3>'+rows(S.sh,"sh")+"</div>";
+ if(view=="sscan")return cust();
+ if(view=="home")return h+'<div class="cd up"><div class="lb">'+S.shop+' ・ 本日の売上</div><div class="bal">'+yen(S.sales)+'</div><div class="pts"><span>取引件数</span><b>'+S.sh.length+' 件</b></div></div>'+acts([["bill","qr","請求QR"],["hist","list","売上履歴"]]).replace("repeat(4","repeat(2")+(bill?'<div class="bn" style="background:linear-gradient(120deg,#0a6cff,#4c97ff)"><div>請求中 '+yen(bill.amt)+'<small>お客様のスキャン待ち</small></div><b style="color:#0a6cff" onclick="go(\'bill\')">表示</b></div>':"")+adBox()+weekly()+'<div class="cd"><h3>最近の入金</h3>'+rows(S.sh,"sh")+"</div>";
  if(view=="set")return setv(h);
- if(view=="bill"||view=="qr"){if(pending)return h+'<div class="cd up ctr"><span class="bd">お客様のスキャン待ち</span><div style="margin:16px 0 10px"><div class="bx">'+qr("TEITEI:"+pending.amt+":"+pending.id+":"+encodeURIComponent(S.shop),230)+'</div></div><div class="amt" style="margin:0">'+yen(pending.amt)+'</div><p class="lb" style="justify-content:center">お客様モードの「支払う」から読み取れます</p><button class="btn g" onclick="pending=null;render()">請求を取り消す</button></div>';
+ if(view=="bill"||view=="qr"){if(bill)return h+'<div class="cd up ctr"><span class="bd">お客様のスキャン待ち</span><div style="margin:16px 0 10px"><div class="bx">'+qr("TEITEI:"+bill.amt+":"+bill.id+":"+encodeURIComponent(S.shop),230)+'</div></div><div class="amt" style="margin:0">'+yen(bill.amt)+'</div><p class="lb" style="justify-content:center">お客様のテイテイで読み取ってもらってください</p><p class="lb" style="justify-content:center;margin-top:4px">支払い後に出る「支払い完了QR」を読み取ると入金されます</p><button class="btn" onclick="go(\'sscan\')">入金確認（お客様の完了QRを読む）</button><button class="btn g" onclick="setMode(\'c\');go(\'scan\')">この端末で支払ってみる（デモ）</button><button class="btn g" onclick="bill=null;render()">請求を取り消す</button></div>';
   return h+'<div class="cd up"><div class="lb" style="justify-content:center">請求金額</div><div class="amt">'+yen(amt||0)+"</div>"+pad()+'<button class="btn" onclick="mk()">請求QRを作成</button></div>'}
- return h+'<div class="cd up"><h3>売上履歴</h3>'+rows(S.sh,"sh")+"</div>"}
+ return h+'<div class="cd up"><h3>売上履歴</h3>'+rows(S.sh,"sh")+adRow()+"</div>"}
 function weekly(){var v=[12000,8500,15200,9800,21000,17400],mx=Math.max(S.sales,22000),h="";var d=["月","火","水","木","金","土"];v.forEach(function(n,k){h+='<div style="height:'+Math.round(n/mx*100)+'%"><span>'+d[k]+"</span></div>"});h+='<div class="t" style="height:'+Math.max(6,Math.round(S.sales/mx*100))+'%"><span>今日</span></div>';return'<div class="cd" style="padding-bottom:36px"><h3>週間売上</h3><div class="wk">'+h+"</div></div>"}
 function render(){var a=document.getElementById("app");a.className=mode=="s"?"s":"";var k=mode+view;a.innerHTML='<div class="'+(k!=lk?"pg":"")+'">'+(mode=="c"?cust():shopv())+"</div>"+tabs();lk=k}
-function done(t,n,sub,after){snd(t=="支払いが完了しました");var d=document.createElement("div");d.className="full dn";d.innerHTML='<div class="ring"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="'+P.check+'"/></svg></div><h2 style="margin:22px 0 6px">'+t+'</h2><div style="font-size:44px;font-weight:800;letter-spacing:-1px">'+yen(n)+'</div><p style="opacity:.9;margin:8px 0 28px">'+sub+" ・ "+now()+'</p><button class="btn" id="ok">閉じる</button>';document.body.appendChild(d);d.querySelector("#ok").onclick=function(){d.remove();go("home")}}
-function found(){if(view!="scan")return;if(!pending){toast("読み取れるQRがありません");go("pay");return}view="confirm";render()}
-function mk(){var n=+amt;if(!n)return toast("金額を入力してください");pending={id:"T"+Date.now()+"-"+n,amt:n,shop:S.shop};amt="";render()}
+function done(t,n,sub,extra){snd();var d=document.createElement("div");d.className="full dn";d.innerHTML='<div style="margin:auto;width:100%;display:flex;flex-direction:column;align-items:center"><div class="ring"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="'+P.check+'"/></svg></div><h2 style="margin:22px 0 6px">'+t+'</h2><div style="font-size:44px;font-weight:800;letter-spacing:-1px">'+yen(n)+'</div><p style="opacity:.9;margin:8px 0 28px">'+sub+" ・ "+now()+'</p>'+(extra||"")+adEnd()+'<button class="btn" id="ok">閉じる</button></div>';document.body.appendChild(d);d.querySelector("#ok").onclick=function(){d.remove();go("home")}}
+function found(){if(view!="scan")return;if(!bill){toast("読み取れるQRがありません");return}stopCam();pending={id:bill.id,amt:bill.amt,shop:bill.shop,ext:false};view="confirm";render()}
+function mk(){var n=+amt;if(!n)return toast("金額を入力してください");bill={id:"T"+Date.now()+"-"+n,amt:n,shop:S.shop};amt="";render()}
 function pay(){var p=pending;if(!p)return;if(S.cardOn===false)return toast("支払いがロック中です。カード画面で解除してください");var o=cpOff(p),tot=p.amt-o.off;if(S.bal<tot)return toast("残高が不足しています。チャージしてください");
- var pt=Math.floor(tot*.005)*(o.c&&o.c.k=="x"?2:1);S.bal-=tot;S.pts+=pt;if(o.c)o.c.used=true;useCp=0;if(!p.ext)S.sales+=tot;
+ var pt=Math.floor(tot*.005)*(o.c&&o.c.k=="x"?2:1);S.bal-=tot;S.pts+=pt;if(o.c)o.c.used=true;useCp=0;if(!p.ext){S.sales+=tot;bill=null}
  S.hist.unshift({t:(p.shop||S.shop)+(o.off?"（クーポン−"+yen(o.off)+"）":""),i:"qr",d:-tot,ts:now()});if(!p.ext)S.sh.unshift({t:"QR決済の入金",i:"qr",d:tot,ts:now()});pending=null;nt("お支払い "+yen(tot)+" が完了しました（+"+pt+"P）");save();
- done("支払いが完了しました",tot,"+"+pt+"P 獲得")}
+ var ex=p.ext?'<div style="background:#fff;color:var(--tx);border-radius:16px;padding:14px;margin-top:6px;width:100%;max-width:320px"><div class="bd">お店に見せる 支払い完了QR</div><div class="bx" style="margin-top:10px">'+qr("TEITEI-PAID:"+p.id+":"+tot,150)+'</div><p class="lb" style="justify-content:center;margin:8px 0 0">お店の「入金確認」で読み取ってもらうと売上に反映されます</p></div>':'<button class="btn" style="background:rgba(255,255,255,.25);color:#fff;max-width:320px" onclick="document.querySelector(\'.dn\').remove();setMode(\'s\')">お店モードで入金を確認する</button>';
+ done("支払いが完了しました",tot,"+"+pt+"P 獲得",ex)}
 function charge(){var n=+amt;if(!n)return toast("金額を入力してください");S.bal+=n;S.hist.unshift({t:"チャージ（"+meth+"）",i:"plus",d:n,ts:now()});nt("チャージ "+yen(n)+" が完了しました");save();done("チャージが完了しました",n,"残高 "+yen(S.bal))}
-async function send(){if(sending)return;if(!window.RTCPeerConnection)return toast("この端末ではP2P通信が使えません");var n=+amt;if(!to.trim())return toast("送り先を入力してください");if(!toId.trim())return toast("相手のテイテイIDを入力してください");if(!n)return toast("金額を入力してください");if(!DBx)return toast("相手の確認は、公開ページにログインして開いた時だけできます");var ok=false,ti=toId.trim().toLowerCase(),tn=to.trim();Object.keys(FU).forEach(function(k){var u=FU[k];if(String(u.tid||"").toLowerCase()==ti&&String(u.name||"")==tn)ok=(k==UID)?"me":(ok||"ok");if(k!=UID)ruid=k});if(ok=="me")return toast("自分には送れません");if(ok!="ok")return toast("「"+tn+"」（ID: "+toId.trim()+"）という人はいません");if(S.bal<n)return toast("残高が不足しています");
- sending=1;toast("相手につないでいます…");try{await p2pSend(ruid,n);var w=tn;S.bal-=n;S.hist.unshift({t:w+" さんへ送金",i:"user",d:-n,ts:now()});nt(w+" さんへ "+yen(n)+" を送金しました");save();to="";toId="";sending=0;done("送金が完了しました",n,w+" さん宛")}catch(e){sending=0;toast("送れませんでした。相手がテイテイを開いているか確認してください")}}
+function send(){var n=+amt;if(!to.trim())return toast("送り先を入力してください");if(!n)return toast("金額を入力してください");if(S.bal<n)return toast("残高が不足しています");
+ S.bal-=n;S.hist.unshift({t:to.trim()+" さんへ送金",i:"user",d:-n,ts:now()});nt(to.trim()+" さんへ "+yen(n)+" を送金しました");save();var w=to.trim();to="";done("送金が完了しました",n,w+" さん宛")}
 ["gesturestart","gesturechange","gestureend","dblclick"].forEach(function(n){document.addEventListener(n,function(e){e.preventDefault()},{passive:false})});document.addEventListener("touchmove",function(e){if(e.touches.length>1||(e.scale&&e.scale!==1))e.preventDefault()},{passive:false});
-var toId="",sending=0,ruid="",DBx=null,UID=null,FU={},FR={},frQ="",frRes=null,lastReg="";
-var ICE={iceServers:[{urls:"stun:stun.l.google.com:19302"}]},rxSeen={};
-function icew(pc){return new Promise(function(r){if(pc.iceGatheringState=="complete")return r();var t=setTimeout(r,4000);pc.addEventListener("icegatheringstatechange",function(){if(pc.iceGatheringState=="complete"){clearTimeout(t);r()}})})}
-async function p2pSend(ru,n){var id=Date.now().toString(36)+Math.random().toString(36).slice(2,6),pc=new RTCPeerConnection(ICE),dc=pc.createDataChannel("tx"),un=null,fin=false,T=0;
- var res=new Promise(function(ok,ng){T=setTimeout(function(){ng(new Error("timeout"))},20000);dc.onopen=function(){dc.send(JSON.stringify({k:"pay",id:id,amt:n,fu:UID}))};dc.onmessage=function(e){try{var m=JSON.parse(e.data);if(m.id!=id)return;clearTimeout(T);if(m.k=="ok")ok();else ng(new Error("no"))}catch(x){}}});res.catch(function(){});
- try{await pc.setLocalDescription(await pc.createOffer());await icew(pc);var ref=DBx.doc("rtc/"+id);await ref.set({f:UID,t:ru,o:pc.localDescription.sdp,ts:Date.now()});un=ref.onSnapshot(function(d){var x=d&&d.exists?d.data():null;if(x&&x.a&&!fin){fin=true;pc.setRemoteDescription({type:"answer",sdp:x.a}).catch(function(){})}});await res}finally{clearTimeout(T);try{un&&un()}catch(e){}try{DBx.doc("rtc/"+id).delete().catch(function(){})}catch(e){}setTimeout(function(){pc.close()},800)}}
-function p2pListen(){DBx.collection("rtc").onSnapshot(function(q){q.docs.forEach(function(d){var x=d.data()||{};if(x.t!=UID||x.a||!x.o||rxSeen[d.id]||Date.now()-(x.ts||0)>40000)return;rxSeen[d.id]=1;p2pRecv(d.id,x.o)})})}
-async function p2pRecv(id,sdp){try{var pc=new RTCPeerConnection(ICE);pc.ondatachannel=function(ev){var dc=ev.channel;dc.onmessage=function(e){try{var m=JSON.parse(e.data);if(m.k!="pay")return;var n=Math.floor(+m.amt),u=FU[m.fu];if(!(n>0)||n>10000000||!u||m.fu==UID){dc.send(JSON.stringify({k:"no",id:m.id}));return}S.rx=S.rx||[];if(S.rx.indexOf(m.id)<0){S.rx.unshift(m.id);S.rx=S.rx.slice(0,40);var nm=escN(u.name);S.bal+=n;S.hist.unshift({t:nm+" さんから受け取り",i:"user",d:n,ts:now()});nt(nm+" さんから "+yen(n)+" を受け取りました");save();snd();toast(nm+" さんから "+yen(n)+" 届きました");if(view=="home"||view=="hist")render()}dc.send(JSON.stringify({k:"ok",id:m.id}))}catch(x){}}};await pc.setRemoteDescription({type:"offer",sdp:sdp});await pc.setLocalDescription(await pc.createAnswer());await icew(pc);await DBx.doc("rtc/"+id).update({a:pc.localDescription.sdp});setTimeout(function(){pc.close()},30000)}catch(e){}}
-
-function escN(v){return String(v==null?"":v).replace(/[<>&"'`]/g,"")}
-function myPid(){if(!S.pid){S.pid=Math.random().toString(36).slice(2,8)+Date.now().toString(36).slice(-4);save()}return S.pid}
-function frId(a,b){return a<b?a+"_"+b:b+"_"+a}
-function fb(f,k,t){return bt(f+"('"+k+"')",t)}
-function frReg(){if(!DBx||!UID)return;var d={name:S.name,tid:S.id},k=JSON.stringify(d);if(k==lastReg)return;lastReg=k;DBx.doc("users/"+UID).set(d).catch(function(){lastReg=""})}
-function frSync(){if(!UID)return;var o=[];Object.keys(FR).forEach(function(k){var r=FR[k];if(r&&r.s=="ok"&&r.m&&r.m.indexOf(UID)>=0){var u=r.m[0]==UID?r.m[1]:r.m[0];o.push({n:escN((FU[u]||{}).name||"？"),u:u,id:k})}});S.fr=o.concat(S.fr.filter(function(f){return f.q}));savr();if(view=="fr")render()}
-function frSearch(){var q=cl(document.getElementById("fn").value);frQ=q;if(!q){frRes=null;return render()}q=q.toLowerCase();frRes=Object.keys(FU).filter(function(u){return u!=UID&&String(FU[u].name||"").toLowerCase().indexOf(q)>=0}).slice(0,10);render()}
-function frAdd(u){if(!DBx)return;DBx.doc("fr/"+frId(UID,u)).set({m:[UID,u],from:UID,s:"p"}).then(function(){toast("友だち申請を送りました")}).catch(function(){toast("申請できませんでした")})}
-function frOk(k){if(!DBx)return;DBx.doc("fr/"+k).update({s:"ok"}).then(function(){toast("友だちになりました")}).catch(function(){toast("承認できませんでした")})}
-function frDel(k){if(!DBx)return;DBx.doc("fr/"+k).delete().catch(function(){toast("できませんでした")})}
-function frRow(n,x){return'<div class="rw" style="cursor:default"><div class="av">'+I("user",18)+'</div><div class="t">'+escN(n)+'</div>'+x+'</div>'}
-function frView(h){var qc='<div class="cd up ctr"><h3>QRで友だちになる</h3><p class="lb" style="justify-content:center;margin:6px 0 10px">お互いのQRを読み取り合うと友だちになれます</p><div class="bx">'+qr("TEITEI-FRIEND:"+myPid()+":"+encodeURIComponent(S.name),220)+'</div><div style="display:flex;gap:8px;margin-top:12px"><input id="mycode" readonly value="TEITEI-FRIEND:'+myPid()+':'+encodeURIComponent(S.name)+'" style="flex:1;min-width:0;font-size:12px">'+bt("copyCode()","コピー")+'</div><p class="lb" style="justify-content:center;margin:6px 0 0">カメラが使えない時は、このコードを相手に送って入力してもらいます</p><div style="margin-top:12px">'+bt("go('scan')","相手のQRを読み取る","btn")+'</div></div>',nd=!DBx;if(!nd)frReg();
- var rq=Object.keys(FR).filter(function(k){var r=FR[k];return r&&r.s=="p"&&r.m&&r.m.indexOf(UID)>=0&&r.from!=UID}).map(function(k){return frRow((FU[FR[k].from]||{}).name||"？",fb("frOk",k,"承認")+'<button class="cbtn" style="background:var(--ln);color:var(--tx);margin-left:6px" onclick="frDel(\''+k+'\')">拒否</button>')}).join("");
- var rs=frRes===null?"":frRes.length?frRes.map(function(u){var k=frId(UID,u),r=FR[k],b;if(r&&r.s=="ok")b='<span class="lb">友だち</span>';else if(r&&r.from==UID)b='<span class="lb">申請中</span>';else if(r)b=fb("frOk",k,"承認");else b=fb("frAdd",u,"追加");return frRow(FU[u].name,b)}).join(""):'<div class="em">見つかりませんでした</div>';
- return h+qc+(nd?"":'<div class="cd"><h3>名前で友だちを探す</h3><input id="fn" maxlength="12" placeholder="相手の名前" value="'+escN(frQ)+'">'+bt("frSearch()","検索","btn")+rs+'</div>')+(rq?'<div class="cd"><h3>友だち申請</h3>'+rq+'</div>':"")+'<div class="cd"><h3>友だち（'+S.fr.length+'）</h3>'+(S.fr.length?S.fr.map(function(f,i){return frRow(f.n,bt("sendTo("+i+")","送る")+'<button class="cbtn" style="background:var(--ln);color:var(--tx);margin-left:6px" onclick="frAsk('+i+')">削除</button>')}).join(""):'<div class="em">まだ友だちがいません</div>')+'</div>'}
-(async function(){try{var us=await claude.use("user"),db=await claude.use("db");if(!us||!db)return;var id=await us.id();if(!id)return;UID=id;DBx=db;frReg();await cloudLoad();p2pListen();db.collection("users").onSnapshot(function(q){FU={};q.docs.forEach(function(d){FU[d.id]=d.data()||{}});frSync()});db.collection("fr").onSnapshot(function(q){FR={};q.docs.forEach(function(d){FR[d.id]=d.data()||{}});frSync()});if(view=="fr")render()}catch(e){}finally{cl0=true}})();
-
 render();setTimeout(function(){var e=document.getElementById("sp");e.className="o";setTimeout(function(){e.remove()},500)},1100);
 </script></body></html>
