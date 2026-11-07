@@ -1334,7 +1334,7 @@ function loop(){var v=document.getElementById("vd");if(!v||view!="scan")return;v
  var res=decJ(x,w,h);if(res)onCode(res);else if(bd){busy=true;bd.detect(cc).then(function(a){busy=false;if(a&&a.length&&a[0].rawValue&&view=="scan")onCode(a[0].rawValue)}).catch(function(){busy=false})}}
  raf=requestAnimationFrame(loop)}
 var warnT=0;
-function onCode(t){var u=/^TEITEI-USER:(.+)$/.exec(t);if(u){stopCam();to=u[1];toast("送り先: "+u[1]);go("send");return}var m=/^TEITEI:(\d+):([^:]+)(?::(.*))?$/.exec(t);if(!m){if(Date.now()-warnT>2500){warnT=Date.now();toast("テイテイのQRコードではありません")}return}
+function onCode(t){var fq=/^TEITEI-FRIEND:([a-z0-9]+):(.*)$/.exec(t);if(fq){if(view!="scan")return;var fp=fq[1],fn="";try{fn=cl(decodeURIComponent(fq[2]))}catch(e){}fn=fn||"友だち";stopCam();if(fp==myPid()){toast("自分のQRです");go("fr");return}if(S.fr.some(function(f){return f.u==fp})){toast(fn+"さんはもう友だちです");go("fr");return}S.fr.push({n:fn,u:fp,q:1});save();toast(fn+"さんと友だちになりました");go("fr");return}var u=/^TEITEI-USER:(.+)$/.exec(t);if(u){stopCam();to=u[1];toast("送り先: "+u[1]);go("send");return}var m=/^TEITEI:(\d+):([^:]+)(?::(.*))?$/.exec(t);if(!m){if(Date.now()-warnT>2500){warnT=Date.now();toast("テイテイのQRコードではありません")}return}
  var a=+m[1],sh="";if(!a)return;try{sh=m[3]?decodeURIComponent(m[3]):""}catch(e){}
  var ext=!(pending&&pending.id==m[2]);stopCam();pending={id:m[2],amt:a,shop:sh,ext:ext};view="confirm";render()}
 var useCp=0,showCard=false,ppl=2;
@@ -1351,7 +1351,7 @@ function invStep(){if(S.invv>0){S.invv=Math.max(1,Math.round(S.invv*(1+(Math.ran
 function invAdd(){var n=+amt;if(!n)return toast("金額を入力してください");if(n>S.bal)return toast("残高が不足しています");S.bal-=n;S.inv+=n;S.invv+=n;S.invh.push(S.invv);S.hist.unshift({t:"運用に追加",i:"chart",d:-n,ts:now()});save();amt="";toast("運用に追加しました");render()}
 function invOut(){var n=+amt;if(!n)return toast("金額を入力してください");if(n>S.invv)return toast("運用額を超えています");var r=n/S.invv;S.inv=Math.max(0,S.inv-Math.round(S.inv*r));S.invv-=n;S.bal+=n;if(S.invv<=0){S.inv=0;S.invv=0;S.invh=[]}else S.invh.push(S.invv);S.hist.unshift({t:"運用から引き出し",i:"chart",d:n,ts:now()});save();amt="";toast("残高に戻しました");render()}
 function spark(a){if(a.length<2)return'<div class="em">運用を始めるとグラフが表示されます</div>';var mn=Math.min.apply(0,a),mx=Math.max.apply(0,a),r=(mx-mn)||1,p=a.map(function(y,i){return(i/(a.length-1)*300).toFixed(1)+","+(70-(y-mn)/r*60).toFixed(1)}).join(" ");return'<svg viewBox="0 0 300 80" width="100%" height="80" preserveAspectRatio="none"><polyline points="'+p+'" fill="none" stroke="var(--ac)" stroke-width="2.5" stroke-linejoin="round"/></svg>'}
-function delFr(i){var f=S.fr[i];if(f&&f.id&&DBx)DBx.doc("fr/"+f.id).delete().catch(function(){toast("削除できませんでした")})}
+function delFr(i){var f=S.fr[i];if(f&&f.q){S.fr.splice(i,1);save();return render()}if(f&&f.id&&DBx)DBx.doc("fr/"+f.id).delete().catch(function(){toast("削除できませんでした")})}
 function sendTo(i){to=S.fr[i].n;go("send")}
 function omi(){var d=new Date().toDateString();if(S.omi&&S.omi.d==d)return toast("今日はもう引きました");var t=[["大吉",10],["中吉",5],["小吉",3],["吉",2],["末吉",1],["凶",0]],w=[.1,.2,.25,.25,.15,.05],r=Math.random(),a=0,k=0;for(;k<5;k++){a+=w[k];if(r<a)break}S.omi={d:d,r:t[k][0],p:t[k][1]};S.pts+=t[k][1];nt("おみくじ："+t[k][0]+"（+"+t[k][1]+"P）");save();snd();render()}
 function svc(h){var v=view,i;
@@ -1420,19 +1420,20 @@ function send(){var n=+amt;if(!to.trim())return toast("送り先を入力して�
 ["gesturestart","gesturechange","gestureend","dblclick"].forEach(function(n){document.addEventListener(n,function(e){e.preventDefault()},{passive:false})});document.addEventListener("touchmove",function(e){if(e.touches.length>1||(e.scale&&e.scale!==1))e.preventDefault()},{passive:false});
 var DBx=null,UID=null,FU={},FR={},frQ="",frRes=null,lastReg="";
 function escN(v){return String(v==null?"":v).replace(/[<>&"'`]/g,"")}
+function myPid(){if(!S.pid){S.pid=Math.random().toString(36).slice(2,8)+Date.now().toString(36).slice(-4);save()}return S.pid}
 function frId(a,b){return a<b?a+"_"+b:b+"_"+a}
 function fb(f,k,t){return bt(f+"('"+k+"')",t)}
 function frReg(){if(!DBx||!UID)return;var d={name:S.name,tid:S.id},k=JSON.stringify(d);if(k==lastReg)return;lastReg=k;DBx.doc("users/"+UID).set(d).catch(function(){lastReg=""})}
-function frSync(){if(!UID)return;var o=[];Object.keys(FR).forEach(function(k){var r=FR[k];if(r&&r.s=="ok"&&r.m&&r.m.indexOf(UID)>=0){var u=r.m[0]==UID?r.m[1]:r.m[0];o.push({n:escN((FU[u]||{}).name||"？"),u:u,id:k})}});S.fr=o;save();if(view=="fr")render()}
+function frSync(){if(!UID)return;var o=[];Object.keys(FR).forEach(function(k){var r=FR[k];if(r&&r.s=="ok"&&r.m&&r.m.indexOf(UID)>=0){var u=r.m[0]==UID?r.m[1]:r.m[0];o.push({n:escN((FU[u]||{}).name||"？"),u:u,id:k})}});S.fr=o.concat(S.fr.filter(function(f){return f.q}));save();if(view=="fr")render()}
 function frSearch(){var q=cl(document.getElementById("fn").value);frQ=q;if(!q){frRes=null;return render()}q=q.toLowerCase();frRes=Object.keys(FU).filter(function(u){return u!=UID&&String(FU[u].name||"").toLowerCase().indexOf(q)>=0}).slice(0,10);render()}
 function frAdd(u){if(!DBx)return;DBx.doc("fr/"+frId(UID,u)).set({m:[UID,u],from:UID,s:"p"}).then(function(){toast("友だち申請を送りました")}).catch(function(){toast("申請できませんでした")})}
 function frOk(k){if(!DBx)return;DBx.doc("fr/"+k).update({s:"ok"}).then(function(){toast("友だちになりました")}).catch(function(){toast("承認できませんでした")})}
 function frDel(k){if(!DBx)return;DBx.doc("fr/"+k).delete().catch(function(){toast("できませんでした")})}
 function frRow(n,x){return'<div class="rw" style="cursor:default"><div class="av">'+I("user",18)+'</div><div class="t">'+escN(n)+'</div>'+x+'</div>'}
-function frView(h){if(!DBx)return h+'<div class="cd up"><h3>友だち</h3><div class="em">友だち検索は、公開したページにログインして開いた時に使えます</div></div>';frReg();
+function frView(h){var qc='<div class="cd up ctr"><h3>QRで友だちになる</h3><p class="lb" style="justify-content:center;margin:6px 0 10px">お互いのQRを読み取り合うと友だちになれます</p><div class="bx">'+qr("TEITEI-FRIEND:"+myPid()+":"+encodeURIComponent(S.name),220)+'</div><div style="margin-top:12px">'+bt("go('scan')","相手のQRを読み取る","btn")+'</div></div>',nd=!DBx;if(!nd)frReg();
  var rq=Object.keys(FR).filter(function(k){var r=FR[k];return r&&r.s=="p"&&r.m&&r.m.indexOf(UID)>=0&&r.from!=UID}).map(function(k){return frRow((FU[FR[k].from]||{}).name||"？",fb("frOk",k,"承認")+'<button class="cbtn" style="background:var(--ln);color:var(--tx);margin-left:6px" onclick="frDel(\''+k+'\')">拒否</button>')}).join("");
  var rs=frRes===null?"":frRes.length?frRes.map(function(u){var k=frId(UID,u),r=FR[k],b;if(r&&r.s=="ok")b='<span class="lb">友だち</span>';else if(r&&r.from==UID)b='<span class="lb">申請中</span>';else if(r)b=fb("frOk",k,"承認");else b=fb("frAdd",u,"追加");return frRow(FU[u].name,b)}).join(""):'<div class="em">見つかりませんでした</div>';
- return h+'<div class="cd up"><h3>名前で友だちを探す</h3><input id="fn" maxlength="12" placeholder="相手の名前" value="'+escN(frQ)+'">'+bt("frSearch()","検索","btn")+rs+'</div>'+(rq?'<div class="cd"><h3>友だち申請</h3>'+rq+'</div>':"")+'<div class="cd"><h3>友だち（'+S.fr.length+'）</h3>'+(S.fr.length?S.fr.map(function(f,i){return frRow(f.n,bt("sendTo("+i+")","送る")+'<button class="cbtn" style="background:var(--ln);color:var(--tx);margin-left:6px" onclick="delFr('+i+')">削除</button>')}).join(""):'<div class="em">まだ友だちがいません</div>')+'</div>'}
+ return h+qc+(nd?"":'<div class="cd"><h3>名前で友だちを探す</h3><input id="fn" maxlength="12" placeholder="相手の名前" value="'+escN(frQ)+'">'+bt("frSearch()","検索","btn")+rs+'</div>')+(rq?'<div class="cd"><h3>友だち申請</h3>'+rq+'</div>':"")+'<div class="cd"><h3>友だち（'+S.fr.length+'）</h3>'+(S.fr.length?S.fr.map(function(f,i){return frRow(f.n,bt("sendTo("+i+")","送る")+'<button class="cbtn" style="background:var(--ln);color:var(--tx);margin-left:6px" onclick="delFr('+i+')">削除</button>')}).join(""):'<div class="em">まだ友だちがいません</div>')+'</div>'}
 (async function(){try{var us=await claude.use("user"),db=await claude.use("db");if(!us||!db)return;var id=await us.id();if(!id)return;UID=id;DBx=db;frReg();db.collection("users").onSnapshot(function(q){FU={};q.docs.forEach(function(d){FU[d.id]=d.data()||{}});frSync()});db.collection("fr").onSnapshot(function(q){FR={};q.docs.forEach(function(d){FR[d.id]=d.data()||{}});frSync()});if(view=="fr")render()}catch(e){}})();
 
 render();setTimeout(function(){var e=document.getElementById("sp");e.className="o";setTimeout(function(){e.remove()},500)},1100);
